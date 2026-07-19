@@ -37,3 +37,8 @@ jobs:
         run: |
           scp target/demonstration-API.jar \
           deploy@${{ secrets.OCI_HOST }}:/opt/hackathon-api/test-api/
+
+      - name: Restart service
+        run: |
+          ssh deploy@${{ secrets.OCI_HOST }} \
+          "sudo systemctl restart demonstration-API"
