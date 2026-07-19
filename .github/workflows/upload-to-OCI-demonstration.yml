@@ -3,6 +3,8 @@ name: Deploy to OCI
 on:
   push:
     branches: [ josue-API-demonstration ]
+    paths:
+      - 'demostration-backend/**'
 
 jobs:
   deploy:
@@ -19,6 +21,7 @@ jobs:
           java-version: '21'
 
       - name: Build
+        working-directory: demostration-backend
         run: ./mvnw clean package
 
       - name: Configure SSH
@@ -30,6 +33,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.OCI_HOST}} >> ~/.ssh/known_hosts
 
       - name: Upload JAR
+        working-directory: demostration-backend
         run: |
           scp target/demonstration-API.jar \
           deploy@${{ secrets.OCI_HOST }}:/opt/hackathon-api/test-api
