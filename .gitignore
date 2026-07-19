@@ -1,0 +1,14 @@
+# Editor configurations
+.vscode/
+.metals/
+.idea/
+
+# Maven build artifacts
+backend/target/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
