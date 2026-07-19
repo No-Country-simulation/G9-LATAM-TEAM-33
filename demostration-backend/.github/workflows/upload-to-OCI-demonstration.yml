@@ -1,0 +1,30 @@
+name: Deploy to OCI
+
+on:
+  push:
+    branches: [ josue-API-demonstration ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Build
+        run: ./mvnw clean package
+
+      - name: Upload JAR
+        run: |
+          scp target/demonstration-API.jar \
+          deploy@${{ secrets.OCI_HOST }}:/opt/hackathon-api/test-api
+          
+    
+
