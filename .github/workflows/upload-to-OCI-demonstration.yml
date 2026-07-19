@@ -36,4 +36,4 @@ jobs:
         working-directory: demostration-backend
         run: |
           scp target/demonstration-API.jar \
-          deploy@${{ secrets.OCI_HOST }}:/opt/hackathon-api/test-api
+          deploy@${{ secrets.OCI_HOST }}:/opt/hackathon-api/test-api/
