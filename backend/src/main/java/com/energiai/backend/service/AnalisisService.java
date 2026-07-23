@@ -1,20 +1,25 @@
 package com.energiai.backend.service;
 
+import com.energiai.backend.client.ModeloEnergeticoClient;
 import com.energiai.backend.dto.ConsumoRequest;
 import com.energiai.backend.dto.AnalisisResponse;
+import com.energiai.backend.dto.PrediccionModelo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AnalisisService {
+
+    private final ModeloEnergeticoClient modeloEnergeticoClient;
 
     public AnalisisResponse analizar(ConsumoRequest datos) {
         // Calcular costoEstimadoMensual de forma real: consumoKwh * 0.75
         double costoEstimadoMensual = datos.getConsumoKwh() * 0.75;
 
-        // TODO: reemplazar por la predicción real de ModeloEnergeticoClient cuando esté implementado
-        String categoria = "Moderado";
-        double probabilidad = 0.75;
+        // Obtener la predicción del modelo (simulado)
+        PrediccionModelo prediccion = modeloEnergeticoClient.predecir(datos);
 
         List<String> recomendaciones = List.of(
             "Reducir el consumo de equipos de alto consumo durante el horario pico.",
@@ -23,8 +28,8 @@ public class AnalisisService {
         );
 
         return AnalisisResponse.builder()
-                .categoria(categoria)
-                .probabilidad(probabilidad)
+                .categoria(prediccion.getCategoria())
+                .probabilidad(prediccion.getProbabilidad())
                 .recomendaciones(recomendaciones)
                 .costoEstimadoMensual(costoEstimadoMensual)
                 .build();
