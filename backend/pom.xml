@@ -113,6 +113,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<finalName>energiai-API</finalName>
 	</build>
 
 </project>

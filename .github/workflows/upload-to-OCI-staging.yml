@@ -1,0 +1,42 @@
+name: Deploy to OCI staging
+
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build
+        working-directory: backend
+        run: ./mvnw clean package
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          
+          ssh-keyscan -H ${{ secrets.OCI_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Upload JAR
+        working-directory: backend
+        run: |
+          scp target/energiai-API.jar \
+          deploy@${{ secrets.OCI_HOST }}:/opt/hackathon-api/staging-api/
+
+      - name: Restart service
+        run: |
+          ssh deploy@${{ secrets.OCI_HOST }} \
+          "sudo systemctl restart staging-API"
