@@ -29,6 +29,8 @@ public class OciService {
 
         InvokeFunctionRequest functionRequest = InvokeFunctionRequest.builder().functionId(functionId).invokeFunctionBody(new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8))).build();
         System.out.println("functionRequest: " + functionRequest);
+        System.out.println("Endpoint: " + client.getEndpoint());
+        System.out.println("FunctionId: " + functionId);
 
         return client.invokeFunction(functionRequest);
     }
