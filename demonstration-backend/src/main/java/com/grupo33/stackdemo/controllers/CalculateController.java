@@ -19,7 +19,7 @@ public class CalculateController {
 
     @PostMapping("/calculate")
     public ResponseEntity<CalculationResponse> calculate(@RequestBody CalculationRequest request) {
-
+        System.out.println("in /calculate");
         InvokeFunctionResponse apiResponse = service.invokeFunction(request);
         String body = "";
         try {
