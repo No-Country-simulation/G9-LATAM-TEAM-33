@@ -23,8 +23,12 @@ public class OciService {
     private String functionId;
 
     public InvokeFunctionResponse invokeFunction(CalculationRequest request){
+        System.out.println("in invokeFunction body");
         String json = objectMapper.writeValueAsString(request);
+        System.out.println("request json: " + json);
+
         InvokeFunctionRequest functionRequest = InvokeFunctionRequest.builder().functionId(functionId).invokeFunctionBody(new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8))).build();
+        System.out.println("functionRequest: " + functionRequest);
 
         return client.invokeFunction(functionRequest);
     }

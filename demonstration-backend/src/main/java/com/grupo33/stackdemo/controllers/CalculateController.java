@@ -21,6 +21,7 @@ public class CalculateController {
     public ResponseEntity<CalculationResponse> calculate(@RequestBody CalculationRequest request) {
         System.out.println("in /calculate");
         InvokeFunctionResponse apiResponse = service.invokeFunction(request);
+        System.out.println("apiResponse: " + apiResponse);
         String body = "";
         try {
             body = new String(
