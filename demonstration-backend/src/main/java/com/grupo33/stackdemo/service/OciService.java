@@ -5,6 +5,7 @@ import com.oracle.bmc.functions.FunctionsInvokeClient;
 import com.oracle.bmc.functions.requests.InvokeFunctionRequest;
 import com.oracle.bmc.functions.responses.InvokeFunctionResponse;
 
+import com.oracle.bmc.model.BmcException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,14 @@ public class OciService {
         System.out.println("Endpoint: " + client.getEndpoint());
         System.out.println("FunctionId: " + functionId);
 
-        return client.invokeFunction(functionRequest);
+        try {
+            return client.invokeFunction(functionRequest);
+        } catch (BmcException e) {
+            System.out.println("Status: " + e.getStatusCode());
+            System.out.println("Service: " + e.getServiceCode());
+            System.out.println("Message: " + e.getMessage());
+            System.out.println("OpcRequestId: " + e.getOpcRequestId());
+            throw e;
+        }
     }
 }
