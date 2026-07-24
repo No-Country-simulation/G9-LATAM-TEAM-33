@@ -1,4 +1,4 @@
 package com.grupo33.stackdemo;
 
-public record CalculationRequest(long firstNumber, long secondNumber) {
+public record CalculationRequest(long firstNumber, long secondNumber, String name) {
 }
