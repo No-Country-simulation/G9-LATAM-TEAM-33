@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequiredArgsConstructor
 public class CalculateController {
-    private OciService service;
+    private final OciService service;
 
 
     @PostMapping("/calculate")
