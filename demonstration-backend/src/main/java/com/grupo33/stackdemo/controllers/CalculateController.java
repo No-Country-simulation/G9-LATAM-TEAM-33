@@ -7,6 +7,7 @@ import com.oracle.bmc.functions.responses.InvokeFunctionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,17 +22,25 @@ public class CalculateController {
         //llamo a la Function directo, pasandole el request body
         try {
             InvokeFunctionResponse apiResponse = service.invokeFunction(request);
-            System.out.println("apiResponse: " + apiResponse);
-            String body = new String(
-                    apiResponse.getInputStream().readAllBytes(),
-                    StandardCharsets.UTF_8
-            );
-            System.out.println("body: " + body);
+//            System.out.println("apiResponse: " + apiResponse);
+//            String body = new String(
+//                    apiResponse.getInputStream().readAllBytes(),
+//                    StandardCharsets.UTF_8
+//            );
+//            System.out.println("body: " + body);
 
             //TODO: sacar, codigo viejo, idealmente este calculo se hace en python
-            double result = request.firstNumber() + request.secondNumber();
-            CalculationResponse calculationResult = new CalculationResponse(request.firstNumber(), request.secondNumber(), result);
-            return ResponseEntity.ok(calculationResult);
+//            double result = request.firstNumber() + request.secondNumber();
+//            CalculationResponse calculationResult = new CalculationResponse(request.firstNumber(), request.secondNumber(), result);
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            CalculationResponse body = mapper.readValue(
+                    apiResponse.getInputStream(),
+                    CalculationResponse.class
+            );
+
+            return ResponseEntity.ok(body);
         } catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
