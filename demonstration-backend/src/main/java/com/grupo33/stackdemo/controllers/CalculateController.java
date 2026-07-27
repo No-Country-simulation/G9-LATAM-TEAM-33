@@ -22,16 +22,6 @@ public class CalculateController {
         //llamo a la Function directo, pasandole el request body
         try {
             InvokeFunctionResponse apiResponse = service.invokeFunction(request);
-//            System.out.println("apiResponse: " + apiResponse);
-//            String body = new String(
-//                    apiResponse.getInputStream().readAllBytes(),
-//                    StandardCharsets.UTF_8
-//            );
-//            System.out.println("body: " + body);
-
-            //TODO: sacar, codigo viejo, idealmente este calculo se hace en python
-//            double result = request.firstNumber() + request.secondNumber();
-//            CalculationResponse calculationResult = new CalculationResponse(request.firstNumber(), request.secondNumber(), result);
 
             ObjectMapper mapper = new ObjectMapper();
 
