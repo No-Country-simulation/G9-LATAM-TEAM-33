@@ -28,18 +28,14 @@ public class OciService {
         String json = objectMapper.writeValueAsString(request);
         System.out.println("request json: " + json);
 
+        //Boilerplate de OCI
         InvokeFunctionRequest functionRequest = InvokeFunctionRequest.builder().functionId(functionId).invokeFunctionBody(new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8))).build();
-        System.out.println("functionRequest: " + functionRequest);
-        System.out.println("Endpoint: " + client.getEndpoint());
-        System.out.println("FunctionId: " + functionId);
 
         try {
             return client.invokeFunction(functionRequest);
         } catch (BmcException e) {
             System.out.println("Status: " + e.getStatusCode());
-            System.out.println("Service: " + e.getServiceCode());
             System.out.println("Message: " + e.getMessage());
-            System.out.println("OpcRequestId: " + e.getOpcRequestId());
             throw e;
         }
     }

@@ -16,23 +16,24 @@ import java.nio.charset.StandardCharsets;
 public class CalculateController {
     private final OciService service;
 
-
     @PostMapping("/calculate")
     public ResponseEntity<CalculationResponse> calculate(@RequestBody CalculationRequest request) {
-        System.out.println("in /calculate");
-        InvokeFunctionResponse apiResponse = service.invokeFunction(request);
-        System.out.println("apiResponse: " + apiResponse);
-        String body = "";
+        //llamo a la Function directo, pasandole el request body
         try {
-            body = new String(
+            InvokeFunctionResponse apiResponse = service.invokeFunction(request);
+
+            String body = new String(
                     apiResponse.getInputStream().readAllBytes(),
                     StandardCharsets.UTF_8
             );
-        } catch (IOException e) {
-            body = e.getMessage();
+            System.out.println(body);
+
+            //TODO: sacar, codigo viejo, idealmente este calculo se hace en python
+            double result = request.firstNumber() + request.secondNumber();
+            CalculationResponse calculationResult = new CalculationResponse(request.firstNumber(), request.secondNumber(), result);
+            return ResponseEntity.ok(calculationResult);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().build();
         }
-        double result = request.firstNumber() + request.secondNumber();
-        CalculationResponse calculationResult = new CalculationResponse(request.firstNumber(), request.secondNumber(), result, body);
-        return ResponseEntity.ok(calculationResult);
     }
 }
