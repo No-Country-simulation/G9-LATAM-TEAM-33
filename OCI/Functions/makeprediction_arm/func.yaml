@@ -1,6 +1,6 @@
 schema_version: 20180708
-name: makecalculation_arm
-version: 0.0.28
+name: makeprediction_arm
+version: 0.0.18
 runtime: python
 build_image: fnproject/python:3.12-dev
 run_image: fnproject/python:3.12
