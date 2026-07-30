@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class PrediccionModelo {
     private String categoria;
     private double probabilidad;
-    private List<String> recomendaciones;
+    private List<Recomendacion> recomendaciones;
     private double costoEstimadoMensual;
+    private Indicadores indicadores;
 }

@@ -17,12 +17,13 @@ public class AnalisisService {
         // Obtener la predicción completa del modelo
         PrediccionModelo prediccion = modeloEnergeticoClient.predecir(datos);
 
-        // Copiar directamente los 4 campos recibidos
+        // Copiar directamente los campos recibidos
         return AnalisisResponse.builder()
                 .categoria(prediccion.getCategoria())
                 .probabilidad(prediccion.getProbabilidad())
                 .recomendaciones(prediccion.getRecomendaciones())
                 .costoEstimadoMensual(prediccion.getCostoEstimadoMensual())
+                .indicadores(prediccion.getIndicadores())
                 .build();
     }
 }

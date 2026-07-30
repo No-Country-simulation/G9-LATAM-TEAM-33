@@ -1,0 +1,16 @@
+package com.energiai.backend.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Recomendacion {
+    private String prioridad;
+    private String impacto;
+    private String mensaje;
+}
