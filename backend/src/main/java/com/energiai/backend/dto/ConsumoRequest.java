@@ -38,6 +38,7 @@ public class ConsumoRequest {
     @NotBlank(message = "El tipo de inmueble es obligatorio")
     private String tipoInmueble;
 
+    @NotNull(message = "El mes es obligatorio")
     @Min(value = 1, message = "El mes debe ser entre 1 y 12")
     @Max(value = 12, message = "El mes debe ser entre 1 y 12")
     private Integer mes;
