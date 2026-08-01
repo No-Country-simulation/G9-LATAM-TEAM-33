@@ -19,6 +19,7 @@ public class AnalisisService {
 
     private final ModeloEnergeticoClient modeloEnergeticoClient;
     private final OciService service;
+    private final ObjectMapper mapper;
 
     public AnalisisResponse analizar(ConsumoRequest datos) {
         System.out.println("Iniciando analisis");
@@ -27,8 +28,6 @@ public class AnalisisService {
         // Obtener la predicción completa del modelo
         InvokeFunctionResponse apiResponse = service.invokeFunction(datos);
         System.out.println("Response: " + apiResponse);
-
-        ObjectMapper mapper = new ObjectMapper();
 
         try {
             String json = new String(
