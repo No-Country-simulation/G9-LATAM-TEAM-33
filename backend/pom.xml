@@ -60,6 +60,16 @@
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.oracle.oci.sdk</groupId>
+			<artifactId>oci-java-sdk-functions</artifactId>
+			<version>3.72.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.oci.sdk</groupId>
+			<artifactId>oci-java-sdk-common-httpclient-jersey3</artifactId>
+			<version>3.72.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
