@@ -158,7 +158,7 @@ def handler(ctx, data: io.BytesIO = None):
             response_data=json.dumps(
                 {"error": f"Error cargando el modelo: {str(ex)}"}, ensure_ascii=False),
             headers={"Content-Type": "application/json"},
-            status=500
+            status_code=500
         )
 
     try:
@@ -183,5 +183,5 @@ def handler(ctx, data: io.BytesIO = None):
             response_data=json.dumps(
                 {"error": f"Error procesando la predicción: {str(ex)}"}, ensure_ascii=False),
             headers={"Content-Type": "application/json"},
-            status=400
+            status_code=400
         )

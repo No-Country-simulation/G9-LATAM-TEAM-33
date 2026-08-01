@@ -1,6 +1,6 @@
 schema_version: 20180708
 name: makeprediction_arm
-version: 0.0.21
+version: 0.0.22
 runtime: python
 build_image: fnproject/python:3.12-dev
 run_image: fnproject/python:3.12
