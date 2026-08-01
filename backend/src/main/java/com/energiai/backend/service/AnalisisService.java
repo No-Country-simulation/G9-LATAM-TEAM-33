@@ -20,36 +20,42 @@ public class AnalisisService {
     private final ModeloEnergeticoClient modeloEnergeticoClient;
     private final OciService service;
 
-    public AnalisisResponse analizar(ConsumoRequest datos) throws IOException {
+    public AnalisisResponse analizar(ConsumoRequest datos) {
         System.out.println("Iniciando analisis");
         System.out.println("Datos: " + datos);
+
         // Obtener la predicción completa del modelo
         InvokeFunctionResponse apiResponse = service.invokeFunction(datos);
         System.out.println("Response: " + apiResponse);
 
         ObjectMapper mapper = new ObjectMapper();
 
-        String json = new String(
-                apiResponse.getInputStream().readAllBytes(),
-                StandardCharsets.UTF_8
-        );
+        try {
+            String json = new String(
+                    apiResponse.getInputStream().readAllBytes(),
+                    StandardCharsets.UTF_8
+            );
 
-        System.out.println("json respuesta de python: " + json);
+            System.out.println("json respuesta de python: " + json);
 
-        AnalisisResponse prediccion = mapper.readValue(
-                json,
-                AnalisisResponse.class
-        );
-        System.out.println("Prediction: " + prediccion);
-//        PrediccionModelo prediccion = modeloEnergeticoClient.predecir(datos);
+            AnalisisResponse prediccion = mapper.readValue(
+                    json,
+                    AnalisisResponse.class
+            );
 
-        // Copiar directamente los campos recibidos
-        return AnalisisResponse.builder()
-                .categoria(prediccion.getCategoria())
-                .probabilidad(prediccion.getProbabilidad())
-                .recomendaciones(prediccion.getRecomendaciones())
-                .costoEstimadoMensual(prediccion.getCostoEstimadoMensual())
-                .indicadores(prediccion.getIndicadores())
-                .build();
+            System.out.println("Prediction: " + prediccion);
+
+            return AnalisisResponse.builder()
+                    .categoria(prediccion.getCategoria())
+                    .probabilidad(prediccion.getProbabilidad())
+                    .recomendaciones(prediccion.getRecomendaciones())
+                    .costoEstimadoMensual(prediccion.getCostoEstimadoMensual())
+                    .indicadores(prediccion.getIndicadores())
+                    .build();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to deserialize OCI Function response", e);
+        }
     }
 }
