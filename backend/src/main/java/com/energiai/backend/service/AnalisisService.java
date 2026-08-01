@@ -14,10 +14,8 @@ public class AnalisisService {
     private final ModeloEnergeticoClient modeloEnergeticoClient;
 
     public AnalisisResponse analizar(ConsumoRequest datos) {
-        // Obtener la predicción completa del modelo
         PrediccionModelo prediccion = modeloEnergeticoClient.predecir(datos);
 
-        // Copiar directamente los campos recibidos
         return AnalisisResponse.builder()
                 .categoria(prediccion.getCategoria())
                 .probabilidad(prediccion.getProbabilidad())
