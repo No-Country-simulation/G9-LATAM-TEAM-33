@@ -4,10 +4,12 @@ import com.energiai.backend.dto.ConsumoRequest;
 import com.energiai.backend.dto.PrediccionModelo;
 import com.energiai.backend.dto.Indicadores;
 import com.energiai.backend.dto.Recomendacion;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Profile("!oci")
 public class ModeloSimuladoClient implements ModeloEnergeticoClient {
 
     @Override

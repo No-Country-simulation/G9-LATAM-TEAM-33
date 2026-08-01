@@ -8,6 +8,7 @@ import com.oracle.bmc.functions.responses.InvokeFunctionResponse;
 import com.oracle.bmc.model.BmcException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
@@ -15,6 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
 @Service
+@Profile("oci")
 @RequiredArgsConstructor
 public class OciService {
     private final FunctionsInvokeClient client;
