@@ -17,8 +17,11 @@ public class AnalisisService {
     private final OciService service;
 
     public AnalisisResponse analizar(ConsumoRequest datos) {
+        System.out.println("Iniciando analisis");
+        System.out.println("Datos: " + datos);
         // Obtener la predicción completa del modelo
         InvokeFunctionResponse apiResponse = service.invokeFunction(datos);
+        System.out.println("Response: " + apiResponse);
 
         ObjectMapper mapper = new ObjectMapper();
 

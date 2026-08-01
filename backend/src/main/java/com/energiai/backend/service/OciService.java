@@ -24,8 +24,9 @@ public class OciService {
     private String functionId;
 
     public InvokeFunctionResponse invokeFunction(ConsumoRequest request){
+        System.out.println("Request en invokeFunction: " + request.toString());
         String json = objectMapper.writeValueAsString(request);
-
+        System.out.println("JSON de Request: " + json);
         //Boilerplate de OCI
         InvokeFunctionRequest functionRequest = InvokeFunctionRequest.builder().functionId(functionId).invokeFunctionBody(new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8))).build();
 
