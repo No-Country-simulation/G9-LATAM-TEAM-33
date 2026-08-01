@@ -29,6 +29,7 @@ public class AnalisisService {
                 apiResponse.getInputStream(),
                 AnalisisResponse.class
         );
+        System.out.println("Prediction: " + prediccion);
 //        PrediccionModelo prediccion = modeloEnergeticoClient.predecir(datos);
 
         // Copiar directamente los campos recibidos

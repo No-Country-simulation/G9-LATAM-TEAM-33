@@ -19,6 +19,7 @@ public class AnalisisController {
     @PostMapping("/analisis-energetico")
     public ResponseEntity<AnalisisResponse> analizar(@Valid @RequestBody ConsumoRequest datos) {
         AnalisisResponse response = analisisService.analizar(datos);
+        System.out.println("Response in post mapping: " + response);
         return ResponseEntity.ok(response);
     }
 }
