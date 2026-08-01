@@ -170,6 +170,7 @@ def handler(ctx, data: io.BytesIO = None):
         probabilidad = max(probabilidades)
 
         resultado = generar_respuesta(body, categoria, probabilidad)
+        logging.getLogger().info('resultado: ' + str(resultado))
 
         return response.Response(
             ctx,
