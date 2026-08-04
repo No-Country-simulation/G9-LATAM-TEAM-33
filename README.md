@@ -60,7 +60,7 @@ El proyecto consiste en desarrollar una solución inteligente capaz de analizar 
 
 Mediante técnicas de **Ciencia de Datos** y **Machine Learning**, el sistema identificará patrones de consumo, clasificará el nivel de eficiencia energética y ofrecerá recomendaciones personalizadas para disminuir el desperdicio y optimizar el uso de la energía.
 
-Además, la solución calculará una estimación del costo mensual del consumo y expondrá toda la información mediante una **API REST**, integrándose con **Oracle Cloud Infrastructure (OCI)**.
+Además, la solución calculará una estimación del costo mensual del consumo y expondrá toda la información mediante una **API REST**, integrándose con servicios **Oracle Cloud Infrastructure (OCI)**.
 
 ---
 
@@ -148,33 +148,33 @@ Desarrollar una API REST que permita:
 
 Implementar los siguientes servicios:
 
-- Object Storage
-- OCI Compute
-- OCI Functions
-- OCI Database (Opcional)
+- [x]  Object Storage
+- [x] OCI Compute
+- [x] OCI Functions
+- [ ] OCI Database (Opcional)
 
 ## 🚀 Requisitos del MVP
 
-- Modelo entrenado.
-- Clasificación funcional.
-- Recomendaciones automáticas.
-- Estimación financiera.
-- API documentada.
-- Integración con OCI.
-- Tres ejemplos de uso.
+- [ ] Modelo entrenado.
+- [ ] Clasificación funcional.
+- [ ] Recomendaciones automáticas.
+- [ ] Estimación financiera.
+- [ ] API documentada.
+- [x] Integración con OCI.
+- [ ] Tres ejemplos de uso.
 
 ## ⭐ Funcionalidades Opcionales
 
-- Dashboard interactivo.
-- Historial de consultas.
-- Procesamiento mediante CSV.
-- Docker.
-- Pruebas automatizadas.
-- Alertas de alto consumo.
-- Visualizaciones gráficas.
-- Comparación entre períodos.
-- Ranking energético.
-- Simulación de ahorro.
+- [ ] Dashboard interactivo.
+- [ ] Historial de consultas.
+- [ ] Procesamiento mediante CSV.
+- [ ] Docker.
+- [ ] Pruebas automatizadas.
+- [ ] Alertas de alto consumo.
+- [ ] Visualizaciones gráficas.
+- [ ] Comparación entre períodos.
+- [ ] Ranking energético.
+- [ ] Simulación de ahorro.
 
 ---
 
