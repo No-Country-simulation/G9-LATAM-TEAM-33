@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,7 @@ public class ConsumoRequest {
     private Integer cantidadPersonas;
 
     @NotBlank(message = "El tipo de inmueble es obligatorio")
+    @Pattern(regexp = "Casa|Departamento|Comercio", message = "El tipo de inmueble debe ser Casa, Departamento o Comercio")
     private String tipoInmueble;
 
     @NotNull(message = "El mes es obligatorio")
