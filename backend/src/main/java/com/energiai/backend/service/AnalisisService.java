@@ -7,6 +7,7 @@ import com.energiai.backend.dto.PrediccionModelo;
 import com.energiai.backend.entity.AnalisisRegistro;
 import com.energiai.backend.entity.IndicadoresEmbeddable;
 import com.energiai.backend.entity.RecomendacionRegistro;
+import com.energiai.backend.repository.AnalisisRegistroRepository;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,17 +17,27 @@ import org.springframework.stereotype.Service;
 public class AnalisisService {
 
     private final ModeloEnergeticoClient modeloEnergeticoClient;
+    private final AnalisisRegistroRepository analisisRegistroRepository;
 
     public AnalisisResponse analizar(ConsumoRequest datos) {
         PrediccionModelo prediccion = modeloEnergeticoClient.predecir(datos);
 
-        return AnalisisResponse.builder()
+        AnalisisResponse response = AnalisisResponse.builder()
                 .categoria(prediccion.getCategoria())
                 .probabilidad(prediccion.getProbabilidad())
                 .recomendaciones(prediccion.getRecomendaciones())
                 .costoEstimadoMensual(prediccion.getCostoEstimadoMensual())
                 .indicadores(prediccion.getIndicadores())
                 .build();
+
+        try {
+            AnalisisRegistro registro = construirRegistro(datos, response);
+            analisisRegistroRepository.save(registro);
+        } catch (Exception e) {
+            System.err.println("[AnalisisService] Error al guardar el registro en la base de datos: " + e.getMessage());
+        }
+
+        return response;
     }
 
     private AnalisisRegistro construirRegistro(ConsumoRequest datos, AnalisisResponse respuesta) {
