@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,4 +47,11 @@ public class AnalisisRegistro {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "analisis_id")
     private List<RecomendacionRegistro> recomendaciones;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.fechaHora == null) {
+            this.fechaHora = LocalDateTime.now();
+        }
+    }
 }
