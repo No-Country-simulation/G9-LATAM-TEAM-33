@@ -375,225 +375,281 @@ df.groupby("categoria")["consumo_kwh"].mean()
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# ======================
+# CONFIGURACIÓN GENERAL
+# ======================
 
-def formato(ax, titulo, xlabel, ylabel, leyenda=False):
-    """Aplica el mismo formato a todos los gráficos."""
-    plt.setp(ax.spines.values(), color="black", linewidth=1)
+sns.set_theme(style="whitegrid")
 
+PALETA_BASE = "icefire"
+PALETA_TIPO = "Set2"
+COLOR_HISTOGRAMA = "#4C72B0"
+COLOR_CMAP_COSTO = "YlOrRd"
+COLOR_CMAP_CORRELACION = "coolwarm"
+
+COLOR_BORDE = "black"
+ANCHO_BORDE = 1
+
+
+# ============
+# CREAR PALETA
+# ============
+
+def crear_paleta(df):
+    """
+    Crea una paleta consistente para las categorías.
+    """
+
+    categorias = df["categoria"].value_counts().index
+    paleta = dict(zip(categorias, sns.color_palette(PALETA_BASE, len(categorias))))
+
+    return categorias, paleta
+
+# ===============
+# FORMATO GENERAL
+# ===============
+
+def formato(ax, titulo, xlabel="", ylabel="", leyenda=False):
+    """
+    Aplica el mismo formato a cualquier gráfico.
+    """
+
+    # Mostrar borde en TODOS los gráficos
+    for spine in ax.spines.values():
+        spine.set_visible(True)
+        spine.set_edgecolor(COLOR_BORDE)
+        spine.set_linewidth(ANCHO_BORDE)
+
+    # Borde de la leyenda
     if leyenda and ax.get_legend() is not None:
-        plt.setp(ax.get_legend().get_frame(),
-                 edgecolor="black",
-                 linewidth=1)
+        ax.get_legend().get_frame().set_edgecolor(COLOR_BORDE)
+        ax.get_legend().get_frame().set_linewidth(ANCHO_BORDE)
 
-    plt.title(titulo)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
+    ax.set_title(titulo)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+
     plt.tight_layout()
     plt.show()
 
+# =============
+# CREAR GRÁFICO
+# =============
+
+def graficar(
+        funcion,
+        titulo,
+        xlabel="",
+        ylabel="",
+        figsize=(8, 5),
+        leyenda=False,
+        **kwargs):
+    """
+    Crea cualquier gráfico de Seaborn.
+    """
+
+    plt.figure(figsize=figsize)
+    ax = funcion(**kwargs)
+
+    formato(
+        ax,
+        titulo,
+        xlabel,
+        ylabel,
+        leyenda
+    )
+
+# =============================
+# FUNCIÓN PRINCIPAL DE GRÁFICOS
+# =============================
 
 def funcion_graficos(df):
 
-    sns.set_theme(style="whitegrid")
+    orden, paleta = crear_paleta(df)
 
-    # Paleta de colores
-    orden = df["categoria"].value_counts().index
-    colores = sns.color_palette("icefire", n_colors=len(orden))
-    palette = dict(zip(orden, colores))
-
-    # ==========================================================
+    # ==========================
     # Distribución de categorías
-    # ==========================================================
-    plt.figure(figsize=(7,5))
-    ax = sns.countplot(
+    # ==========================
+
+    graficar(
+        sns.countplot,
+        "Distribución de categorías de eficiencia",
+        "Categoría",
+        "Cantidad",
+        figsize=(7, 5),
         data=df,
         x="categoria",
         hue="categoria",
         order=orden,
-        palette=palette,
-        edgecolor="black",
+        palette=paleta,
+        edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
 
-    formato(ax,
-             "Distribución de categorías de eficiencia",
-             "Categoría",
-             "Cantidad")
-
-    # ==========================================================
+    # ============================
     # Costo promedio por categoría
-    # ==========================================================
+    # ============================
+
     costo_categoria = (
         df.groupby("categoria")["costo_estimado"]
-        .mean()
-        .reset_index()
-        .sort_values("costo_estimado")
+          .mean()
+          .reset_index()
+          .sort_values("costo_estimado")
     )
 
-    plt.figure(figsize=(8,5))
-    ax = sns.barplot(
+    graficar(
+        sns.barplot,
+        "Costo promedio por categoría",
+        "Categoría",
+        "Costo promedio",
         data=costo_categoria,
         x="categoria",
         y="costo_estimado",
         hue="categoria",
-        palette=palette,
-        edgecolor="black",
+        palette=paleta,
+        edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
 
-    formato(ax,
-             "Costo promedio por categoría",
-             "Categoría",
-             "Costo promedio")
+    # ==============================
+    # Cantidad de equipos vs consumo
+    # ==============================
 
-    # ==========================================================
-    # Equipos vs consumo
-    # ==========================================================
-    plt.figure(figsize=(8,5))
-    ax = sns.scatterplot(
+    graficar(
+        sns.scatterplot,
+        "Relación entre cantidad de equipos y consumo",
+        "Cantidad de equipos",
+        "Consumo (kWh)",
+        leyenda=True,
         data=df,
         x="cantidad_equipos",
         y="consumo_kwh",
         hue="categoria",
-        palette=palette
+        palette=paleta
     )
 
-    formato(ax,
-             "Relación entre cantidad de equipos y consumo",
-             "Cantidad de equipos",
-             "Consumo (kWh)",
-             leyenda=True)
-
-    # ==========================================================
+    # ================================
     # Horas de alto consumo vs consumo
-    # ==========================================================
-    plt.figure(figsize=(8,5))
-    ax = sns.scatterplot(
+    # ================================
+
+    graficar(
+        sns.scatterplot,
+        "Impacto de las horas de alto consumo",
+        "Horas de alto consumo",
+        "Consumo (kWh)",
+        leyenda=True,
         data=df,
         x="horas_alto_consumo",
         y="consumo_kwh",
         hue="categoria",
-        palette=palette
+        palette=paleta
     )
 
-    formato(ax,
-             "Impacto de las horas de alto consumo",
-             "Horas de alto consumo",
-             "Consumo (kWh)",
-             leyenda=True)
+    # ===================================
+    # Costo promedio por tipo de inmueble
+    # ===================================
 
-    # ==========================================================
-    # Costo por tipo de inmueble
-    # ==========================================================
     costo_tipo = (
         df.groupby("tipo_inmueble")["costo_estimado"]
-        .mean()
-        .reset_index()
-        .sort_values("costo_estimado")
+          .mean()
+          .reset_index()
+          .sort_values("costo_estimado")
     )
 
-    plt.figure(figsize=(8,5))
-    ax = sns.barplot(
+    graficar(
+        sns.barplot,
+        "Costo promedio por tipo de inmueble",
+        "Tipo de inmueble",
+        "Costo promedio",
         data=costo_tipo,
         x="tipo_inmueble",
         y="costo_estimado",
         hue="tipo_inmueble",
-        palette="Set2",
-        edgecolor="black",
+        palette=PALETA_TIPO,
+        edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
 
-    formato(ax,
-             "Costo promedio por tipo de inmueble",
-             "Tipo de inmueble",
-             "Costo promedio")
-
-    # ==========================================================
+    # ==============================
     # Tipo de inmueble por categoría
-    # ==========================================================
-    plt.figure(figsize=(8,5))
-    ax = sns.countplot(
+    # ==============================
+
+    graficar(
+        sns.countplot,
+        "Tipo de inmueble por eficiencia energética",
+        "Categoría",
+        "Cantidad",
+        leyenda=True,
         data=df,
         x="categoria",
         hue="tipo_inmueble",
-        palette="Set2",
-        edgecolor="black",
+        palette=PALETA_TIPO,
+        edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
 
-    formato(ax,
-             "Tipo de inmueble por eficiencia energética",
-             "Categoría",
-             "Cantidad",
-             leyenda=True)
-
-    # ==========================================================
+    # ======================
     # Histograma del consumo
-    # ==========================================================
-    plt.figure(figsize=(8,5))
-    ax = sns.histplot(
-        df["consumo_kwh"],
+    # ======================
+
+    graficar(
+        sns.histplot,
+        "Distribución del consumo energético",
+        "Consumo (kWh)",
+        "Cantidad de inmuebles",
+        data=df,
+        x="consumo_kwh",
         bins=30,
-        kde=True
+        kde=True,
+        color=COLOR_HISTOGRAMA
     )
 
-    formato(ax,
-             "Distribución del consumo energético",
-             "Consumo (kWh)",
-             "Cantidad de inmuebles")
+    # ===========================================
+    # Heatmap costo promedio por tipo y categoría
+    # ===========================================
 
-    # ==========================================================
-    # Heatmap costo promedio
-    # ==========================================================
-    tabla = df.pivot_table(
-        values="costo_estimado",
-        index="tipo_inmueble",
-        columns="categoria",
-        aggfunc="mean"
+    tabla = (
+        df.pivot_table(
+            values="costo_estimado",
+            index="tipo_inmueble",
+            columns="categoria",
+            aggfunc="mean"
+        )
+        .reindex(columns=["Eficiente", "Moderado", "Ineficiente"])
     )
 
-    tabla = tabla[["Eficiente", "Moderado", "Ineficiente"]]
-
-    plt.figure(figsize=(7,4))
-    ax = sns.heatmap(
-        tabla,
+    graficar(
+        sns.heatmap,
+        "Costo promedio por tipo y categoría",
+        figsize=(7, 4),
+        data=tabla,
         annot=True,
-        cmap="YlOrRd",
-        fmt=".1f"
+        cmap=COLOR_CMAP_COSTO,
+        fmt=".1f",
+        linewidths=0.5,
+        linecolor="white"
     )
 
-    for spine in ax.spines.values():
-        spine.set_visible(True)
-        spine.set_color("black")
-        spine.set_linewidth(1)
-
-    plt.title("Costo promedio por tipo y categoría")
-    plt.tight_layout()
-    plt.show()
-
-    # ==========================================================
+    # =====================
     # Matriz de correlación
-    # ==========================================================
+    # =====================
+
     correlacion = (
         df.select_dtypes(include=["int64", "float64"])
-        .corr()
+          .corr()
     )
 
-    plt.figure(figsize=(8,6))
-    ax = sns.heatmap(
-        correlacion,
+    graficar(
+        sns.heatmap,
+        "Correlación entre variables",
+        figsize=(8, 6),
+        data=correlacion,
         annot=True,
-        cmap="coolwarm",
-        fmt=".2f"
+        cmap=COLOR_CMAP_CORRELACION,
+        fmt=".2f",
+        linewidths=0.5,
+        linecolor="white"
     )
 
-    for spine in ax.spines.values():
-        spine.set_visible(True)
-        spine.set_color("black")
-        spine.set_linewidth(1)
-
-    plt.title("Correlación entre variables")
-    plt.tight_layout()
-    plt.show()
 
 funcion_graficos(df)
