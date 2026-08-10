@@ -21,6 +21,7 @@ public class AnalisisService {
 
     public AnalisisResponse analizar(ConsumoRequest datos) {
         PrediccionModelo prediccion = modeloEnergeticoClient.predecir(datos);
+        System.out.println("Prediccion: " + prediccion);
 
         AnalisisResponse response = AnalisisResponse.builder()
                 .categoria(prediccion.getCategoria())
