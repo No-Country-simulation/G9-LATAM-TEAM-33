@@ -31,8 +31,10 @@ public class OciService {
         System.out.println("JSON de Request: " + json);
         //Boilerplate de OCI
         InvokeFunctionRequest functionRequest = InvokeFunctionRequest.builder().functionId(functionId).invokeFunctionBody(new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8))).build();
+        System.out.println("Request en invokeFunction: " + functionRequest.toString());
 
         try {
+            System.out.println("invoking function...");
             return client.invokeFunction(functionRequest);
         } catch (BmcException e) {
             System.out.println("Status: " + e.getStatusCode());
