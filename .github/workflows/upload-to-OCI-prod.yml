@@ -3,6 +3,8 @@ name: Deploy to OCI staging
 on:
   push:
     branches: [ prod ]
+    paths:
+      - 'backend/**'
 
 jobs:
   deploy:
