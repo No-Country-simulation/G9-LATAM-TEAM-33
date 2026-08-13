@@ -241,7 +241,7 @@
     <body>
         <div class="container">
             <span class="badge">Hackathon EnergiAI</span>
-            <h1>&#x26A1; EnergiAI - Java Backend API, v3</h1>
+            <h1>&#x26A1; EnergiAI - Java Backend API, v4, dejando random forest como default</h1>
             <p>
                 Solución inteligente para el análisis, clasificación y
                 optimización del consumo de energía eléctrica.
@@ -573,7 +573,7 @@
                         tipo_inmueble:
                             document.getElementById("tipo_inmueble").value,
                         mes: parseInt(document.getElementById("mes").value),
-                        modelo: "lr",
+                        modelo: "rf",
                     };
 
                     const liveResultBox =
