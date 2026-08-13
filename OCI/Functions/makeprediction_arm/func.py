@@ -9,6 +9,12 @@ import oci
 
 from fdk import response
 
+
+MODELOS = {
+    "lr": "energicore_model_lr.pkl",
+    "rf": "energicore_model_rf.pkl"
+}
+
 MENSAJES = {
     "horario_pico": [
         "Reducir el uso de equipos durante los horarios pico puede disminuir significativamente el costo de la energía.",
@@ -136,21 +142,45 @@ def generar_respuesta(datos, categoria, probabilidad):
 
 def handler(ctx, data: io.BytesIO = None):
     logger = logging.getLogger()
+    logger.info('in handler')
+    logger.info('data: ' + str(data))
+
+    try:
+        body = json.loads(data.getvalue())
+        logger.info('body: ' + str(body))
+    except Exception as ex:
+        logger.info('error: ' + str(ex))
+        return response.Response(
+            ctx,
+            response_data=json.dumps(
+                {"error": f"Error cargando el body: {str(ex)}"}, ensure_ascii=False),
+            headers={"Content-Type": "application/json"}, status_code=500)
+
     try:
         signer = oci.auth.signers.get_resource_principals_signer()
         object_storage = oci.object_storage.ObjectStorageClient(
             config={}, signer=signer)
         namespace = object_storage.get_namespace().data
+        logger.info('namespace: ' + str(namespace))
     except Exception as ex:
         logger.info(f"error: {str(ex)}")
         raise
 
     try:
+        filename = MODELOS[body["modelo"]]
         bucket_response = object_storage.get_object(
             namespace_name=namespace, bucket_name="hackathon-model-bucket",
-            object_name="live/modelo_consumo.pkl")
+            object_name="live/" + filename)
+        logger.info('bucket_response: ' + str(bucket_response))
+
+        logger.info("Starting to read object content")
         model_bytes = bucket_response.data.content
+        logger.info("Finished reading object content")
+        logger.info(f"model_bytes size: {len(model_bytes)} bytes")
+
+        logger.info("Starting to load model")
         model = joblib.load(io.BytesIO(model_bytes))
+        logger.info("Finished loading model")
     except (Exception, ValueError) as ex:
         logger.info('error: ' + str(ex))
         return response.Response(
@@ -162,7 +192,7 @@ def handler(ctx, data: io.BytesIO = None):
         )
 
     try:
-        body = json.loads(data.getvalue())
+        del body["modelo"]
         df = pd.DataFrame([body])
 
         categoria = model.predict(df)[0]
@@ -170,7 +200,7 @@ def handler(ctx, data: io.BytesIO = None):
         probabilidad = max(probabilidades)
 
         resultado = generar_respuesta(body, categoria, probabilidad)
-        logging.getLogger().info('resultado: ' + str(resultado))
+        logger.info('resultado: ' + str(resultado))
 
         return response.Response(
             ctx,
