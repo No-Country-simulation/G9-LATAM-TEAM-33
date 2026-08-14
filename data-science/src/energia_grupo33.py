@@ -390,20 +390,30 @@ COLOR_CMAP_CORRELACION = "coolwarm"
 COLOR_BORDE = "black"
 ANCHO_BORDE = 1
 
+# =============
+# CREAR PALETAS
+# =============
 
-# ============
-# CREAR PALETA
-# ============
-
-def crear_paleta(df):
+def crear_paleta_categoria(df):
     """
     Crea una paleta consistente para las categorías.
     """
 
     categorias = df["categoria"].value_counts().index
-    paleta = dict(zip(categorias, sns.color_palette(PALETA_BASE, len(categorias))))
+    paleta_categoria = dict(zip(categorias, sns.color_palette(PALETA_BASE, len(categorias))))
 
-    return categorias, paleta
+    return categorias, paleta_categoria
+
+
+def crear_paleta_tipo(df):
+    """
+    Crea una paleta consistente para los tipos de inmueble.
+    """
+
+    tipos = df["tipo_inmueble"].value_counts().index
+    paleta_tipo = dict(zip(tipos, sns.color_palette(PALETA_TIPO, len(tipos))))
+
+    return tipos, paleta_tipo
 
 # ===============
 # FORMATO GENERAL
@@ -465,7 +475,8 @@ def graficar(
 
 def funcion_graficos(df):
 
-    orden, paleta = crear_paleta(df)
+    orden_categoria, paleta_categoria = crear_paleta_categoria(df)
+    orden_tipo, paleta_tipo = crear_paleta_tipo(df)
 
     # ==========================
     # Distribución de categorías
@@ -480,8 +491,8 @@ def funcion_graficos(df):
         data=df,
         x="categoria",
         hue="categoria",
-        order=orden,
-        palette=paleta,
+        order=orden_categoria,
+        palette=paleta_categoria,
         edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
@@ -506,7 +517,7 @@ def funcion_graficos(df):
         x="categoria",
         y="costo_estimado",
         hue="categoria",
-        palette=paleta,
+        palette=paleta_categoria,
         edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
@@ -525,7 +536,7 @@ def funcion_graficos(df):
         x="cantidad_equipos",
         y="consumo_kwh",
         hue="categoria",
-        palette=paleta
+        palette=paleta_categoria
     )
 
     # ================================
@@ -542,7 +553,7 @@ def funcion_graficos(df):
         x="horas_alto_consumo",
         y="consumo_kwh",
         hue="categoria",
-        palette=paleta
+        palette=paleta_categoria
     )
 
     # ===================================
@@ -565,7 +576,9 @@ def funcion_graficos(df):
         x="tipo_inmueble",
         y="costo_estimado",
         hue="tipo_inmueble",
-        palette=PALETA_TIPO,
+        order=costo_tipo["tipo_inmueble"],
+        hue_order=orden_tipo,
+        palette=paleta_tipo,
         edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
@@ -583,7 +596,9 @@ def funcion_graficos(df):
         data=df,
         x="categoria",
         hue="tipo_inmueble",
-        palette=PALETA_TIPO,
+        order=orden_categoria,
+        hue_order=orden_tipo,
+        palette=paleta_tipo,
         edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
