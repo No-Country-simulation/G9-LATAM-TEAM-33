@@ -37,6 +37,7 @@ public class AnalisisRegistro {
     private int cantidadPersonas;
     private String tipoInmueble;
     private Integer mes;
+    private String modelo;
     private String categoria;
     private double probabilidad;
     private double costoEstimadoMensual;
