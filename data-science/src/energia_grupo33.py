@@ -370,7 +370,33 @@ df.groupby("tipo_inmueble")["consumo_kwh"].mean().sort_values(ascending=False)
 
 df.groupby("categoria")["consumo_kwh"].mean()
 
-"""#Gráficos"""
+"""#Gráficos
+
+### VISUALIZACIÓN Y ANÁLISIS DEL CONSUMO ENERGÉTICO
+•    Se implementó Seaborn y Matplotlib para generar visualizaciones del consumo energético.
+
+•    Se analizó la relación entre categoría de eficiencia energética, consumo, costo y tipo de inmueble.
+
+
+Objetivo:
+
+Identificar patrones, diferencias y relaciones que permitan interpretar el comportamiento energético del tipo de inmueble y apoyar la toma de decisiones.
+
+
+Gráficos generados:
+
+•    📊 Distribución de categoría de eficiencia energética.
+
+•    💰 Costo promedio por categoría y tipo de inmueble.
+
+•    🔵 Relación entre equipos, horas de alto consumo y consumo energético.
+
+•    📈 Distribución del consumo mediante histograma.
+
+•    🔥 Heatmap del costo promedio por tipo de inmueble y categoría de eficiencia energética.
+
+•    🔗 Matriz de correlación entre variables.
+"""
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -407,7 +433,7 @@ def crear_paleta_categoria(df):
 
 def crear_paleta_tipo(df):
     """
-    Crea una paleta consistente para los tipos de inmueble.
+    Crea una paleta consistente para los tipos de inmuebles.
     """
 
     tipos = df["tipo_inmueble"].value_counts().index
@@ -484,7 +510,7 @@ def funcion_graficos(df):
 
     graficar(
         sns.countplot,
-        "Distribución de categorías de eficiencia",
+        "Distribución de categorías de eficiencia energética",
         "Categoría",
         "Cantidad",
         figsize=(7, 5),
@@ -510,9 +536,9 @@ def funcion_graficos(df):
 
     graficar(
         sns.barplot,
-        "Costo promedio por categoría",
+        "Costo promedio por categoría de eficiencia energética",
         "Categoría",
-        "Costo promedio",
+        "Costo promedio ($)",
         data=costo_categoria,
         x="categoria",
         y="costo_estimado",
@@ -571,7 +597,7 @@ def funcion_graficos(df):
         sns.barplot,
         "Costo promedio por tipo de inmueble",
         "Tipo de inmueble",
-        "Costo promedio",
+        "Costo promedio ($)",
         data=costo_tipo,
         x="tipo_inmueble",
         y="costo_estimado",
@@ -589,8 +615,8 @@ def funcion_graficos(df):
 
     graficar(
         sns.countplot,
-        "Tipo de inmueble por eficiencia energética",
-        "Categoría",
+        "Tipo de inmueble por categoría de eficiencia energética",
+        "Categoría de eficiencia energética",
         "Cantidad",
         leyenda=True,
         data=df,
@@ -635,7 +661,7 @@ def funcion_graficos(df):
 
     graficar(
         sns.heatmap,
-        "Costo promedio por tipo y categoría",
+        "Costo estimado promedio ($) por tipo de inmueble\n" "y categoría de eficiencia energética",
         figsize=(7, 4),
         data=tabla,
         annot=True,
@@ -668,3 +694,4 @@ def funcion_graficos(df):
 
 
 funcion_graficos(df)
+
