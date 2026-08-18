@@ -13,12 +13,13 @@ MODELOS = {
 
 app = FastAPI()
 
-config = oci.config.from_file()
-
 print("starting")
 
+# signer = oci.auth.signers.get_resource_principals_signer()
 # signer = oci.auth.signers.InstancePrincipalsSecurityTokenSigner()
+# object_storage = oci.object_storage.ObjectStorageClient(config={}, signer=signer)
 
+config = oci.config.from_file()
 object_storage = oci.object_storage.ObjectStorageClient(
     config=config)
 

@@ -20,11 +20,7 @@ public class PythonService {
 
         try {
             System.out.println("Request en invokeFunction: " + request.toString());
-
-//            String json = objectMapper.writeValueAsString(request);
-//            System.out.println("JSON de Request: " + json);
             String json = objectMapper.writeValueAsString(request);
-            System.out.println("Invoking FastAPI...");
 
             String response = restClient.post()
                     .uri("/predict")
@@ -32,8 +28,6 @@ public class PythonService {
                     .body(json)
                     .retrieve()
                     .body(String.class);
-
-            System.out.println("Respuesta FastAPI: " + response);
 
             return objectMapper.readValue(response, PrediccionModelo.class);
         } catch (RestClientException e){
