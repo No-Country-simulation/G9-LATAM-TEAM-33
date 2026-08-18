@@ -216,7 +216,7 @@
         <ul>
             <li><strong>Clasificación:</strong> Categoriza el perfil energético en <span style="color:#10b981;">Eficiente</span>, <span style="color:#f59e0b;">Moderado</span> o <span style="color:#ef4444;">Ineficiente</span>.</li>
             <li><strong>Costo estimado:</strong> Cálculo del costo mensual según tarifa de referencia de <strong>$0,75 por kWh</strong>.</li>
-            <li><strong>Modelos ML:</strong> Elección de algoritmo entre <strong>Random Forest (`rf`)</strong> y <strong>Regresión Logística (`lr`)</strong>.</li>
+            <li><strong>Modelos ML:</strong> Selección dinámica del algoritmo entre <strong>Random Forest (`rf`)</strong> y <strong>Regresión Logística (`lr`)</strong>.</li>
             <li><strong>Indicadores:</strong> Consumo por equipo, por persona y por hora de alto consumo.</li>
             <li><strong>Recomendaciones:</strong> Sugerencias personalizadas con prioridad e impacto para reducir el gasto energético.</li>
         </ul>
@@ -225,7 +225,7 @@
     <!-- CLIENTE WEB INTERACTIVO -->
     <div class="card" style="border: 1px solid #10b981;">
         <h3>🧪 Probador Interactivo de la API (Cliente Web)</h3>
-        <p style="color:#94a3b8; font-size:0.88rem; margin-bottom: 12px;">Completa el formulario para realizar una petición real al endpoint en Staging OCI:</p>
+        <p style="color:#94a3b8; font-size:0.88rem; margin-bottom: 12px;">Completa el formulario para realizar una petición dinámicamente según el modelo seleccionado:</p>
 
         <form id="apiTestForm">
             <div class="form-grid">
@@ -264,7 +264,6 @@
                     <label for="mes">mes (1-12):</label>
                     <input type="number" id="mes" value="7" min="1" max="12" required>
                 </div>
-                <!-- 👇 NUEVO CAMPO: MODELO ML ('rf' o 'lr') -->
                 <div class="form-group">
                     <label for="modelo">modelo (Algoritmo ML):</label>
                     <select id="modelo" required>
@@ -285,10 +284,10 @@
 
     <!-- ENDPOINT -->
     <div class="card">
-        <h3>&#x1F310; Endpoint</h3>
+        <h3>&#x1F310; Endpoint Dinámico</h3>
         <div class="endpoint-box">
             <span class="method">POST</span>
-            <span class="path">http://146.181.51.129/staging/analisis-energetico</span>
+            <span class="path">http://146.181.51.129/staging/analisis-energetico/{modelo}</span>
         </div>
 
         <p style="color:#94a3b8; font-size:0.88rem; margin-bottom: 10px;">Campos del body (application/json):</p>
@@ -339,7 +338,7 @@
             <tr>
                 <td><span class="field-name">modelo</span></td>
                 <td><span class="type">String</span></td>
-                <td>Algoritmo ML: <code>rf</code> (Random Forest) o <code>lr</code> (Regresión Logística) <span class="required">requerido</span></td>
+                <td>Algoritmo ML a ejecutar: <code>rf</code> (Random Forest) o <code>lr</code> (Regresión Logística) <span class="required">requerido</span></td>
             </tr>
             </tbody>
         </table>
@@ -385,12 +384,12 @@
 }</pre>
     </div>
 
-    <!-- EJEMPLO DE ERROR -->
+    <!-- EJEMPLO DE ERROR REAL -->
     <div class="card">
         <h3>&#x26A0;&#xFE0F; Ejemplo de Error de Validación <span class="status-400">400 Bad Request</span></h3>
-        <p class="section-label">Cuando falta un campo obligatorio (ejemplo `modelo`):</p>
+        <p class="section-label">Cuando falta un campo obligatorio (por ejemplo 'mes'):</p>
         <pre>{
-  "modelo": "El modelo es obligatorio (rf o lr)"
+  "mes": "El mes es obligatorio"
 }</pre>
     </div>
 
@@ -400,7 +399,8 @@
     document.getElementById('apiTestForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        // 1. JSON incluyendo el campo 'modelo' seleccionado ('rf' o 'lr')
+        const modeloSeleccionado = document.getElementById('modelo').value;
+
         const payload = {
             consumo_kwh: parseFloat(document.getElementById('consumo_kwh').value),
             uso_horario_pico: document.getElementById('uso_horario_pico').value === "true",
@@ -409,7 +409,7 @@
             cantidad_personas: parseInt(document.getElementById('cantidad_personas').value),
             tipo_inmueble: document.getElementById('tipo_inmueble').value,
             mes: parseInt(document.getElementById('mes').value),
-            modelo: document.getElementById('modelo').value
+            modelo: modeloSeleccionado
         };
 
         const liveResultBox = document.getElementById('liveResultBox');
@@ -417,11 +417,11 @@
         const badgeContainer = document.getElementById('badgeContainer');
 
         liveResultBox.style.display = "block";
-        liveResponseJson.innerText = "Cargando respuesta de la API...";
+        liveResponseJson.innerText = "Cargando respuesta de la API en Staging...";
         badgeContainer.innerHTML = "";
 
-        // 2. URL del servidor Staging solicitada
-        const apiUrl = 'http://146.181.51.129/staging/analisis-energetico';
+        // Construcción dinámica de la URL según el modelo seleccionado ('rf' o 'lr')
+        const apiUrl = `http://146.181.51.129/staging/analisis-energetico/${modeloSeleccionado}`;
 
         try {
             const response = await fetch(apiUrl, {
@@ -450,7 +450,7 @@
                 badgeContainer.innerHTML = `<span class="category-badge-live ${catClass}">Perfil Categorizado: ${data.categoria}</span>`;
             }
         } catch (err) {
-            console.error("Error al conectar con la API:", err);
+            console.error("Error al conectar con la API en Staging:", err);
             badgeContainer.innerHTML = `<span class="category-badge-live cat-ineficiente">❌ Error de Conexión</span>`;
             liveResponseJson.innerText = "No se pudo conectar con la API en " + apiUrl + ".\nDetalle: " + err.message;
         }
