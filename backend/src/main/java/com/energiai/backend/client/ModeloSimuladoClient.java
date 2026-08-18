@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Profile("!oci")
+@Profile("local")
 public class ModeloSimuladoClient implements ModeloEnergeticoClient {
 
     @Override
