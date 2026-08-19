@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/favicon.ico">
         <title>EnergiAI - API Backend</title>
         <style>
             body {
@@ -43,10 +42,21 @@
                 margin: 20px 0;
                 border: 1px solid #334155;
             }
+            .card .title {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
             .card h3 {
-                margin-top: 0;
+                margin: 0;
                 color: #38bdf8;
                 font-size: 1.15rem;
+            }
+
+            .card h4 {
+                margin: 0;
+                color: #70ccf5;
+                font-size: 0.95rem;
             }
             pre {
                 background-color: #090d16;
@@ -242,7 +252,7 @@
     <body>
         <div class="container">
             <span class="badge">Hackathon EnergiAI</span>
-            <h1>&#x26A1; EnergiAI - Java Backend API, v4, dejando random forest como default</h1>
+            <h1>&#x26A1; EnergiAI - Java Backend API</h1>
             <p>
                 Solución inteligente para el análisis, clasificación y
                 optimización del consumo de energía eléctrica.
@@ -263,6 +273,11 @@
                         <strong>Costo estimado:</strong> Cálculo del costo
                         mensual según tarifa de referencia de
                         <strong>$0,75 por kWh</strong>.
+                    </li>
+                    <li>
+                        <strong>Modelos ML:</strong> Selección dinámica del
+                        algoritmo entre <strong>Random Forest (`rf`)</strong> y
+                        <strong>Regresión Logística (`lr`)</strong>.
                     </li>
                     <li>
                         <strong>Indicadores:</strong> Consumo por equipo, por
@@ -286,8 +301,8 @@
                         margin-bottom: 12px;
                     "
                 >
-                    Completa el formulario para realizar una petición real al
-                    endpoint <code>POST /analisis-energetico</code>:
+                    Completa el formulario para realizar una petición
+                    dinámicamente según el modelo seleccionado:
                 </p>
 
                 <form id="apiTestForm">
@@ -354,7 +369,7 @@
                                 <option value="Comercio">Comercio</option>
                             </select>
                         </div>
-                        <div class="form-group" style="grid-column: span 2">
+                        <div class="form-group">
                             <label for="mes">mes (1-12):</label>
                             <input
                                 type="number"
@@ -364,6 +379,17 @@
                                 max="12"
                                 required
                             />
+                        </div>
+                        <div class="form-group">
+                            <label for="modelo">modelo (Algoritmo ML):</label>
+                            <select id="modelo" required>
+                                <option value="rf" selected>
+                                    Random Forest ('rf')
+                                </option>
+                                <option value="lr">
+                                    Regresión Logística ('lr')
+                                </option>
+                            </select>
                         </div>
                     </div>
                     <button type="submit" class="btn-submit">
@@ -388,10 +414,20 @@
 
             <!-- ENDPOINT -->
             <div class="card">
-                <h3>&#x1F310; Endpoint</h3>
+                <div class="title">
+                    <h3>&#x1F310; Endpoint Dinámico</h3>
+                    -
+                    <h4>
+                        version 'v1' para modelo 'lr' o version 'v2' para modelo
+                        'rf'
+                    </h4>
+                </div>
+
                 <div class="endpoint-box">
                     <span class="method">POST</span>
-                    <span class="path">/analisis-energetico</span>
+                    <span class="path"
+                        >https://leafwatt.ddns.net/{version}/analisis-energetico</span
+                    >
                 </div>
 
                 <p
@@ -534,13 +570,15 @@
                 >
             </div>
 
-            <!-- EJEMPLO DE ERROR -->
+            <!-- EJEMPLO DE ERROR REAL -->
             <div class="card">
                 <h3>
                     &#x26A0;&#xFE0F; Ejemplo de Error de Validación
                     <span class="status-400">400 Bad Request</span>
                 </h3>
-                <p class="section-label">Cuando falta un campo obligatorio:</p>
+                <p class="section-label">
+                    Cuando falta un campo obligatorio (por ejemplo 'mes'):
+                </p>
                 <pre>
 {
   "mes": "El mes es obligatorio"
@@ -550,10 +588,18 @@
         </div>
 
         <script>
+            modelDict = {
+                rf: "v2",
+                lr: "v1",
+            };
+
             document
                 .getElementById("apiTestForm")
                 .addEventListener("submit", async function (e) {
                     e.preventDefault();
+
+                    const modeloSeleccionado =
+                        document.getElementById("modelo").value;
 
                     const payload = {
                         consumo_kwh: parseFloat(
@@ -574,7 +620,7 @@
                         tipo_inmueble:
                             document.getElementById("tipo_inmueble").value,
                         mes: parseInt(document.getElementById("mes").value),
-                        modelo: "rf",
+                        modelo: modeloSeleccionado,
                     };
 
                     const liveResultBox =
@@ -586,15 +632,35 @@
 
                     liveResultBox.style.display = "block";
                     liveResponseJson.innerText =
-                        "Cargando respuesta de la API...";
+                        "Cargando respuesta de la API en Staging...";
                     badgeContainer.innerHTML = "";
 
+                    // Construcción dinámica de la URL según el modelo seleccionado ('rf' o 'lr')
+                    const apiUrl = `${modelDict[modeloSeleccionado]}/analisis-energetico`;
+
                     try {
-                        const response = await fetch("/analisis-energetico", {
+                        const response = await fetch(apiUrl, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload),
                         });
+
+                        if (!response.ok) {
+                            const errorData = await response
+                                .json()
+                                .catch(() => null);
+                            if (errorData) {
+                                liveResponseJson.innerText = JSON.stringify(
+                                    errorData,
+                                    null,
+                                    2,
+                                );
+                            } else {
+                                liveResponseJson.innerText = `Error HTTP ${response.status}: ${response.statusText}`;
+                            }
+                            badgeContainer.innerHTML = `<span class="category-badge-live cat-ineficiente">Error HTTP ${response.status}</span>`;
+                            return;
+                        }
 
                         const data = await response.json();
                         liveResponseJson.innerText = JSON.stringify(
@@ -613,54 +679,16 @@
                             badgeContainer.innerHTML = `<span class="category-badge-live ${catClass}">Perfil Categorizado: ${data.categoria}</span>`;
                         }
                     } catch (err) {
-                        console.error("Error al conectar con la API:", err);
-                        const costo = payload.consumo_kwh * 0.75;
-                        const porPersona =
-                            payload.consumo_kwh /
-                            Math.max(payload.cantidad_personas, 1);
-                        let cat =
-                            porPersona > 80
-                                ? "Ineficiente"
-                                : porPersona > 40
-                                  ? "Moderado"
-                                  : "Eficiente";
-
-                        const simulatedData = {
-                            categoria: cat,
-                            probabilidad: 0.85,
-                            costo_estimado_mensual: costo,
-                            indicadores: {
-                                consumo_por_equipo: +(
-                                    payload.consumo_kwh /
-                                    payload.cantidad_equipos
-                                ).toFixed(1),
-                                consumo_por_persona: +porPersona.toFixed(1),
-                                consumo_por_hora: +(
-                                    payload.consumo_kwh /
-                                    (payload.horas_alto_consumo * 30)
-                                ).toFixed(1),
-                            },
-                            recomendaciones: [
-                                {
-                                    prioridad: "Alta",
-                                    impacto: "Alto",
-                                    mensaje: "Revisar uso en horario pico.",
-                                },
-                            ],
-                        };
-
-                        const catClass =
-                            cat === "Eficiente"
-                                ? "cat-eficiente"
-                                : cat === "Ineficiente"
-                                  ? "cat-ineficiente"
-                                  : "cat-moderado";
-                        badgeContainer.innerHTML = `<span class="category-badge-live ${catClass}">Perfil Categorizado: ${cat}</span>`;
-                        liveResponseJson.innerText = JSON.stringify(
-                            simulatedData,
-                            null,
-                            2,
+                        console.error(
+                            "Error al conectar con la API en Staging:",
+                            err,
                         );
+                        badgeContainer.innerHTML = `<span class="category-badge-live cat-ineficiente">❌ Error de Conexión</span>`;
+                        liveResponseJson.innerText =
+                            "No se pudo conectar con la API en " +
+                            apiUrl +
+                            ".\nDetalle: " +
+                            err.message;
                     }
                 });
         </script>
