@@ -370,7 +370,33 @@ df.groupby("tipo_inmueble")["consumo_kwh"].mean().sort_values(ascending=False)
 
 df.groupby("categoria")["consumo_kwh"].mean()
 
-"""#Gráficos"""
+"""#Gráficos
+
+### VISUALIZACIÓN Y ANÁLISIS DEL CONSUMO ENERGÉTICO
+•    Se implementó Seaborn y Matplotlib para generar visualizaciones del consumo energético.
+
+•    Se analizó la relación entre categoría de eficiencia energética, consumo, costo y tipo de inmueble.
+
+
+Objetivo:
+
+Identificar patrones, diferencias y relaciones que permitan interpretar el comportamiento energético del tipo de inmueble y apoyar la toma de decisiones.
+
+
+Gráficos generados:
+
+•    📊 Distribución de categoría de eficiencia energética.
+
+•    💰 Costo promedio por categoría y tipo de inmueble.
+
+•    🔵 Relación entre equipos, horas de alto consumo y consumo energético.
+
+•    📈 Distribución del consumo mediante histograma.
+
+•    🔥 Heatmap del costo promedio por tipo de inmueble y categoría de eficiencia energética.
+
+•    🔗 Matriz de correlación entre variables.
+"""
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -390,20 +416,30 @@ COLOR_CMAP_CORRELACION = "coolwarm"
 COLOR_BORDE = "black"
 ANCHO_BORDE = 1
 
+# =============
+# CREAR PALETAS
+# =============
 
-# ============
-# CREAR PALETA
-# ============
-
-def crear_paleta(df):
+def crear_paleta_categoria(df):
     """
     Crea una paleta consistente para las categorías.
     """
 
     categorias = df["categoria"].value_counts().index
-    paleta = dict(zip(categorias, sns.color_palette(PALETA_BASE, len(categorias))))
+    paleta_categoria = dict(zip(categorias, sns.color_palette(PALETA_BASE, len(categorias))))
 
-    return categorias, paleta
+    return categorias, paleta_categoria
+
+
+def crear_paleta_tipo(df):
+    """
+    Crea una paleta consistente para los tipos de inmuebles.
+    """
+
+    tipos = df["tipo_inmueble"].value_counts().index
+    paleta_tipo = dict(zip(tipos, sns.color_palette(PALETA_TIPO, len(tipos))))
+
+    return tipos, paleta_tipo
 
 # ===============
 # FORMATO GENERAL
@@ -465,7 +501,8 @@ def graficar(
 
 def funcion_graficos(df):
 
-    orden, paleta = crear_paleta(df)
+    orden_categoria, paleta_categoria = crear_paleta_categoria(df)
+    orden_tipo, paleta_tipo = crear_paleta_tipo(df)
 
     # ==========================
     # Distribución de categorías
@@ -473,15 +510,15 @@ def funcion_graficos(df):
 
     graficar(
         sns.countplot,
-        "Distribución de categorías de eficiencia",
+        "Distribución de categorías de eficiencia energética",
         "Categoría",
         "Cantidad",
         figsize=(7, 5),
         data=df,
         x="categoria",
         hue="categoria",
-        order=orden,
-        palette=paleta,
+        order=orden_categoria,
+        palette=paleta_categoria,
         edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
@@ -499,14 +536,14 @@ def funcion_graficos(df):
 
     graficar(
         sns.barplot,
-        "Costo promedio por categoría",
+        "Costo promedio por categoría de eficiencia energética",
         "Categoría",
-        "Costo promedio",
+        "Costo promedio ($)",
         data=costo_categoria,
         x="categoria",
         y="costo_estimado",
         hue="categoria",
-        palette=paleta,
+        palette=paleta_categoria,
         edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
@@ -525,7 +562,7 @@ def funcion_graficos(df):
         x="cantidad_equipos",
         y="consumo_kwh",
         hue="categoria",
-        palette=paleta
+        palette=paleta_categoria
     )
 
     # ================================
@@ -542,7 +579,7 @@ def funcion_graficos(df):
         x="horas_alto_consumo",
         y="consumo_kwh",
         hue="categoria",
-        palette=paleta
+        palette=paleta_categoria
     )
 
     # ===================================
@@ -560,12 +597,14 @@ def funcion_graficos(df):
         sns.barplot,
         "Costo promedio por tipo de inmueble",
         "Tipo de inmueble",
-        "Costo promedio",
+        "Costo promedio ($)",
         data=costo_tipo,
         x="tipo_inmueble",
         y="costo_estimado",
         hue="tipo_inmueble",
-        palette=PALETA_TIPO,
+        order=costo_tipo["tipo_inmueble"],
+        hue_order=orden_tipo,
+        palette=paleta_tipo,
         edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
@@ -576,14 +615,16 @@ def funcion_graficos(df):
 
     graficar(
         sns.countplot,
-        "Tipo de inmueble por eficiencia energética",
-        "Categoría",
+        "Tipo de inmueble por categoría de eficiencia energética",
+        "Categoría de eficiencia energética",
         "Cantidad",
         leyenda=True,
         data=df,
         x="categoria",
         hue="tipo_inmueble",
-        palette=PALETA_TIPO,
+        order=orden_categoria,
+        hue_order=orden_tipo,
+        palette=paleta_tipo,
         edgecolor=COLOR_BORDE,
         linewidth=0.8
     )
@@ -620,7 +661,7 @@ def funcion_graficos(df):
 
     graficar(
         sns.heatmap,
-        "Costo promedio por tipo y categoría",
+        "Costo estimado promedio ($) por tipo de inmueble\n" "y categoría de eficiencia energética",
         figsize=(7, 4),
         data=tabla,
         annot=True,
@@ -653,3 +694,4 @@ def funcion_graficos(df):
 
 
 funcion_graficos(df)
+

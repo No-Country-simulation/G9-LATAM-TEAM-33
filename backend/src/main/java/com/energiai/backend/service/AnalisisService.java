@@ -72,6 +72,7 @@ public class AnalisisService {
                 .cantidadPersonas(datos.getCantidadPersonas())
                 .tipoInmueble(datos.getTipoInmueble())
                 .mes(datos.getMes())
+                .modelo(datos.getModelo())
                 .categoria(respuesta.getCategoria())
                 .probabilidad(respuesta.getProbabilidad())
                 .costoEstimadoMensual(respuesta.getCostoEstimadoMensual())

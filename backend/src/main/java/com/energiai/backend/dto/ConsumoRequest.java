@@ -45,7 +45,5 @@ public class ConsumoRequest {
     @Max(value = 12, message = "El mes debe ser entre 1 y 12")
     private Integer mes;
 
-    @NotNull(message = "El modelo es obligatorio")
-    @Pattern(regexp = "lr|rf", message = "El modelo debe ser lr o rf")
     private String modelo;
 }
