@@ -1,13 +1,10 @@
-![Logo](assets/Portada%20Leaf%20Watt%201.png)
+![Logo](assets/Logos/Portada%20Leaf%20Watt%201.png)
 
 ![https://www.youtube.com/channel/UCgF66HaRWpx01yt8DTqbQzA](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)
 ![https://trello.com/b/c3USs77B/g9-latam-team-33](https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white)
-![https://github.com/No-Country-simulation/G9-LATAM-TEAM-33](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)
-
-
-
 
 # 🍃⚡ Leaf Watt
+
 ### Hackathon ONE G9 | Alura Latam + Oracle Next Education
 
 ![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk)
@@ -23,9 +20,11 @@
 
 ---
 
-> **Proyecto desarrollado para el Hackathon ONE G9 de Alura Latam + Oracle Next Education.**
->
-> Una solución inteligente que utiliza Ciencia de Datos y Machine Learning para analizar patrones de consumo energético, clasificar perfiles de eficiencia y generar recomendaciones personalizadas que ayuden a reducir costos y fomentar un consumo responsable.
+**Proyecto desarrollado para el Hackathon ONE G9 de Alura Latam + Oracle Next Education.**
+
+Una solución inteligente que utiliza Ciencia de Datos y Machine Learning
+para analizar patrones de consumo energético, clasificar perfiles de eficiencia y
+generar recomendaciones personalizadas que ayuden a reducir costos y fomentar un consumo responsable.
 
 ---
 
@@ -33,15 +32,15 @@
 
 - [📌 Descripción](#-descripción)
 - [🎯 Objetivos](#-objetivos)
-  - [Objetivo General](#-objetivo-general)
-  - [Objetivos Individuales (Consumidores)](#-objetivos-individuales-consumidores)
+    - [Objetivo General](#-objetivo-general)
+    - [Objetivos Individuales (Consumidores)](#-objetivos-individuales-consumidores)
 - [📋 Alcance del Proyecto](#-alcance-del-proyecto)
 - [✅ Tareas a Realizar](#-tareas-a-realizar)
-  - [Ciencia de Datos](#-ciencia-de-datos)
-  - [Back-End](#️-back-end)
-  - [Oracle Cloud Infrastructure](#️-oracle-cloud-infrastructure-oci)
-  - [Requisitos del MVP](#-requisitos-del-mvp)
-  - [Funcionalidades Opcionales](#-funcionalidades-opcionales)
+    - [Ciencia de Datos](#-ciencia-de-datos)
+    - [Back-End](#️-back-end)
+    - [Oracle Cloud Infrastructure](#️-oracle-cloud-infrastructure-oci)
+    - [Requisitos del MVP](#-requisitos-del-mvp)
+    - [Funcionalidades Opcionales](#-funcionalidades-opcionales)
 - [🛠 Tecnologías a Utilizar](#-tecnologías-a-utilizar)
 - [💡 Soluciones](#-soluciones)
 - [📈 Categorías de Consumo](#-categorías-de-consumo)
@@ -143,12 +142,11 @@ Desarrollar una API REST que permita:
 - Manejar errores.
 - Documentar los endpoints.
 
-
 ## ☁️ Oracle Cloud Infrastructure (OCI)
 
 Implementar los siguientes servicios:
 
-- [x]  Object Storage
+- [x] Object Storage
 - [x] OCI Compute
 - [x] OCI Functions
 - [ ] OCI Database (Opcional)
@@ -261,14 +259,13 @@ Dispondrá de:
 
 El modelo clasificará a los usuarios en tres perfiles:
 
-| Categoría | Descripción |
-|-----------|-------------|
-| 🟢 Eficiente | Consumo optimizado |
-| 🟡 Moderado | Consumo aceptable con oportunidades de mejora |
-| 🔴 Ineficiente | Alto consumo y desperdicio energético |
+| Categoría      | Descripción                                   |
+| -------------- | --------------------------------------------- |
+| 🟢 Eficiente   | Consumo optimizado                            |
+| 🟡 Moderado    | Consumo aceptable con oportunidades de mejora |
+| 🔴 Ineficiente | Alto consumo y desperdicio energético         |
 
 ---
-
 
 ---
 
@@ -324,20 +321,31 @@ xxxxxxxxxxxxxxx
 
 ```
 
+## Leyenda
+
+- `.github/workflows/` — GitHub Actions workflows para el CI/CD y deployment.
+- `OCI/Functions/` — Codigo legacy de OCI Functions.
+- `assets/` — Imagenes, iconos y otros recursos estaticos para el proyecto.
+- `backend/` — Codigo de produccion para el API Spring Boot.
+- `data-science/` — Notebooks con analisis, preprocesamiento, entrenamiento, etc. de la Data.
+- `demonstration-backend/` — Codigo de prueba para integracion con OCI.
+- `docs/` — Documentacion de la API, Proyecto, etc.
+- `model-service/` — Primer codigo Python/FastAPI de respaldo.
+
 ---
 
 # 👥 Equipo
 
-| Integrante | Rol | Responsabilidades | Links |
-|------------|-----|-------------------|-------|
-| Jhon Fernando Gomez Villa  | Backend | Desarrollo de la API |<p align="left"> <a href="https://www.github.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /> </picture> </a> <a href="https://www.linkedin.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" alt="LinkedIn" title="LinkedIn" /> </picture> </a> <a href="https://discord.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" width="32" height="32" alt="Discord" title="Discord" /> </picture> </a></p> 
-| Angie Alejandra Vega  | Backend | Desarrollo de la API |<p align="left"> <a href="https://github.com/AngieVegaR" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /> </picture> </a> <a href="https://www.linkedin.com/in/angiealejandravegaromero/" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" alt="LinkedIn" title="LinkedIn" /> </picture> </a> <a href="https://discord.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" width="32" height="32" alt="Discord" title="Discord" /> </picture> </a></p> 
-| Jhon Rodríguez | Ciencia de Datos | Modelado y entrenamiento |<p align="left"> <a href="https://www.github.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /> </picture> </a> <a href="https://www.linkedin.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" alt="LinkedIn" title="LinkedIn" /> </picture> </a> <a href="https://discord.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" width="32" height="32" alt="Discord" title="Discord" /> </picture> </a></p> 
-| Tomas Raggio | Ciencia de Datos | Modelado y entrenamiento |<p align="left"> <a href="https://www.github.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /> </picture> </a> <a href="https://www.linkedin.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" alt="LinkedIn" title="LinkedIn" /> </picture> </a> <a href="https://discord.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" width="32" height="32" alt="Discord" title="Discord" /> </picture> </a></p> 
-| Angela Balta | Ciencia de Datos | Modelado y entrenamiento |<p align="left"> <a href="https://github.com/Anel-7" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /> </picture> </a> <a href="https://www.linkedin.com/in/angela-balta-412506140/" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" alt="LinkedIn" title="LinkedIn" /> </picture> </a> <a href="https://discord.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" width="32" height="32" alt="Discord" title="Discord" /> </picture> </a></p> 
-| Isaac Ruiz | Ciencia de Datos | Modelado y entrenamiento |<p align="left"> <a href="https://www.github.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /> </picture> </a> <a href="https://www.linkedin.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" alt="LinkedIn" title="LinkedIn" /> </picture> </a> <a href="https://discord.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" width="32" height="32" alt="Discord" title="Discord" /> </picture> </a></p> 
-| Josue Marquez | Cloud | Integración con OCI |<p align="left"> <p align="left"> <a href="https://www.github.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /> </picture> </a> <a href="https://www.linkedin.com/in/josuemarquez/" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" alt="LinkedIn" title="LinkedIn" /> </picture> </a> <a href="https://discord.com" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" width="32" height="32" alt="Discord" title="Discord" /> </picture> </a></p> 
-| Matias Marquez | Documentación | README y presentación |<p align="left"> <a href="https://github.com/MarquezIMatias" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /> </picture> </a> <a href="https://www.linkedin.com/in/matias-ivan-marquez-b05888378/" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" alt="LinkedIn" title="LinkedIn" /> </picture> </a> <a href="https://discord.com/users/marquezmatias" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/discord.svg" width="32" height="32" alt="Discord" title="Discord" /> </picture> </a></p> 
+| Integrante                | Rol              | Responsabilidades                        | Links                                                                                                                |
+| ------------------------- | ---------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Jhon Fernando Gomez Villa | Backend          | Desarrollo de la API                     | [Linkedin](https://www.linkedin.com/in/jhon-fernando-gómez-villa-4a6bb6341) - [Github](https://github.com/JHFEGOVI)  |
+| Angie Alejandra Vega      | Frontend         | Desarrollo del Front End                 | [Linkedin](https://www.linkedin.com/in/angiealejandravegaromero) - [Github](https://github.com/AngieVegaR)           |
+| Jhon Rodríguez            | Ciencia de Datos | Modelado y entrenamiento                 |
+| Tomas Raggio              | Ciencia de Datos | Modelado y entrenamiento                 | [Github](https://github.com/innit-tomi)                                                                              |
+| Angela Balta              | Ciencia de Datos | Graficos                                 | [Linkedin](https://www.linkedin.com/in/angela-balta-412506140) - [Github](https://github.com/Anel-7)                 |
+| Isaac Ruiz                | Ciencia de Datos | Modelado y entrenamiento                 |
+| Matias Marquez            | Documentación    | README y presentación                    | [Linkedin](https://www.linkedin.com/in/matias-ivan-marquez-b05888378/) - [Github](https://github.com/MarquezIMatias) |
+| Josue Marquez             | Project Manager  | Organizar proyecto y Integración con OCI | [Linkedin](https://www.linkedin.com/in/josuemarquez/) - [Github](https://github.com/owaruuu)                         |
 
 ---
 
