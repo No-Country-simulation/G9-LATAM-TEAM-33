@@ -391,7 +391,7 @@ Gráficos generados:
 
 •    🔵 Relación entre equipos, horas de alto consumo y consumo energético.
 
-•    📈 Distribución del consumo mediante histograma.
+•    📈 Distribución del consumo energético mediante histograma.
 
 •    🔥 Heatmap del costo promedio por tipo de inmueble y categoría de eficiencia energética.
 
@@ -399,7 +399,9 @@ Gráficos generados:
 """
 
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 import seaborn as sns
+from IPython.display import display, HTML
 
 # ======================
 # CONFIGURACIÓN GENERAL
@@ -407,14 +409,50 @@ import seaborn as sns
 
 sns.set_theme(style="whitegrid")
 
-PALETA_BASE = "icefire"
-PALETA_TIPO = "Set2"
-COLOR_HISTOGRAMA = "#4C72B0"
-COLOR_CMAP_COSTO = "YlOrRd"
-COLOR_CMAP_CORRELACION = "coolwarm"
+# =================
+# COLORES LEAF WATT
+# =================
+
+# Colores inspirados directamente en el logo
+COLOR_VERDE_OSCURO = "#1C493B"
+COLOR_VERDE_PROFUNDO = "#084331"
+COLOR_VERDE_LIMA = "#9AD348"
+COLOR_VERDE_MEDIO = "#5E9F45"
+COLOR_AMARILLO_PASTEL = "#F3D98B"
+COLOR_GRIS_LOGO = "#44494C"
+
+COLOR_HISTOGRAMA = COLOR_VERDE_MEDIO
+
+# Escala de colores para los Heatmaps
+COLOR_CMAP_COSTO = "YlGn"
+COLOR_CMAP_CORRELACION = "RdYlGn"
 
 COLOR_BORDE = "black"
 ANCHO_BORDE = 1
+
+# ======================
+# CONFIGURACIÓN DEL LOGO
+# ======================
+
+RUTA_LOGO = "/content/Logo LW(collab).png"
+
+# ==========================================
+# FUNCIÓN PARA AGREGAR EL LOGO AL GRÁFICO
+# ==========================================
+
+def agregar_logo(fig, ruta_logo):
+    """
+    Se coloca el logo de Leaf Watt fuera del área
+    principal del gráfico, en la parte superior derecha.
+    """
+
+    logo = mpimg.imread(ruta_logo)
+
+    # Crear un área exclusiva para el logo
+    ax_logo = fig.add_axes([0.90, 0.86, 0.12, 0.15])
+
+    ax_logo.imshow(logo)
+    ax_logo.axis("off")
 
 # =============
 # CREAR PALETAS
@@ -422,22 +460,47 @@ ANCHO_BORDE = 1
 
 def crear_paleta_categoria(df):
     """
-    Crea una paleta consistente para las categorías.
+    Se crea una paleta consistente para las categorías.
+    Los mismos colores se mantienen en todos
+    los gráficos donde aparecen las categorías.
     """
 
     categorias = df["categoria"].value_counts().index
-    paleta_categoria = dict(zip(categorias, sns.color_palette(PALETA_BASE, len(categorias))))
+
+    # Colores fijos para cada categoría
+    colores_categoria = {
+        "Eficiente": COLOR_VERDE_LIMA,
+        "Moderado": COLOR_AMARILLO_PASTEL,
+        "Ineficiente": COLOR_GRIS_LOGO
+    }
+
+    paleta_categoria = {
+        categoria: colores_categoria[categoria]
+        for categoria in categorias
+    }
 
     return categorias, paleta_categoria
 
-
 def crear_paleta_tipo(df):
     """
-    Crea una paleta consistente para los tipos de inmuebles.
+    Se crea una paleta consistente para los tipos de inmueble.
+    Los mismos colores se mantienen en todos
+    los gráficos donde aparecen los tipos.
     """
 
     tipos = df["tipo_inmueble"].value_counts().index
-    paleta_tipo = dict(zip(tipos, sns.color_palette(PALETA_TIPO, len(tipos))))
+
+    # Colores fijos para cada tipo
+    colores_tipo = {
+        "Departamento": COLOR_VERDE_OSCURO,
+        "Casa": COLOR_VERDE_MEDIO,
+        "Comercio": COLOR_AMARILLO_PASTEL
+    }
+
+    paleta_tipo = {
+        tipo: colores_tipo[tipo]
+        for tipo in tipos
+    }
 
     return tipos, paleta_tipo
 
@@ -445,7 +508,7 @@ def crear_paleta_tipo(df):
 # FORMATO GENERAL
 # ===============
 
-def formato(ax, titulo, xlabel="", ylabel="", leyenda=False):
+def formato(ax, titulo, xlabel="", ylabel="", leyenda=False, rotacion_x=0, subtitulo=""):
     """
     Aplica el mismo formato a cualquier gráfico.
     """
@@ -461,12 +524,27 @@ def formato(ax, titulo, xlabel="", ylabel="", leyenda=False):
         ax.get_legend().get_frame().set_edgecolor(COLOR_BORDE)
         ax.get_legend().get_frame().set_linewidth(ANCHO_BORDE)
 
-    ax.set_title(titulo)
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
+    # Título
+    ax.set_title(titulo, fontsize=12, fontweight="bold", pad= 20)
 
-    plt.tight_layout()
-    plt.show()
+    # Texto debajo del título SOLO si se solicite
+    if subtitulo:
+        ax.text(0.5, 1.02, subtitulo, transform=ax.transAxes, ha="center",
+                va="bottom", fontsize=9, color=COLOR_GRIS_LOGO)
+
+    # Etiquetas
+    ax.set_xlabel(xlabel, fontsize=10, fontweight="bold")
+    ax.set_ylabel(ylabel, fontsize=10, fontweight="bold")
+
+    # Ticks visibles en ambos ejes
+    ax.tick_params(axis="x", which="both", bottom=True, top=False, labelrotation=rotacion_x,
+                   length=4, width=1, direction="out")
+
+    ax.tick_params(axis="y", which="both", left=True, right=False, labelrotation=0,
+                   length=4, width=1, direction="out")
+
+    # Agregar logo
+    agregar_logo(plt.gcf(), RUTA_LOGO)
 
 # =============
 # CREAR GRÁFICO
@@ -479,11 +557,15 @@ def graficar(
         ylabel="",
         figsize=(8, 5),
         leyenda=False,
+        rotacion_x=0,
+        mostrar_valores=False,
+        prefijo_valor="",
+        subtitulo="",
+        centrar_labels_x=False,
         **kwargs):
     """
     Crea cualquier gráfico de Seaborn.
     """
-
     plt.figure(figsize=figsize)
     ax = funcion(**kwargs)
 
@@ -492,8 +574,36 @@ def graficar(
         titulo,
         xlabel,
         ylabel,
-        leyenda
+        leyenda,
+        rotacion_x,
+        subtitulo
     )
+
+    # Centrar labels SOLO cuando se solicite
+    if centrar_labels_x:
+        plt.setp(ax.get_xticklabels(), ha="right", va= "top")
+
+    # Mostrar valores encima de las barras SOLO cuando se solicite
+    if mostrar_valores:
+        for contenedor in ax.containers:
+            etiquetas = [
+               f"{prefijo_valor}{valor.get_height():.0f}"
+               for valor in contenedor
+            ]
+            ax.bar_label(
+                contenedor,
+                labels=etiquetas,
+                padding=3,
+                fontsize=12,
+                fontweight="bold"
+            )
+
+        ax.margins(y=0.10)
+
+    plt.show()
+
+    # Agregar espacio entre gráficos
+    display(HTML("<div style='height: 30px;'></div>"))
 
 # =============================
 # FUNCIÓN PRINCIPAL DE GRÁFICOS
@@ -510,17 +620,18 @@ def funcion_graficos(df):
 
     graficar(
         sns.countplot,
-        "Distribución de categorías de eficiencia energética",
+        "Distribución por categoría de eficiencia energética",
         "Categoría",
         "Cantidad",
-        figsize=(7, 5),
         data=df,
         x="categoria",
         hue="categoria",
         order=orden_categoria,
         palette=paleta_categoria,
         edgecolor=COLOR_BORDE,
-        linewidth=0.8
+        linewidth=0.8,
+        mostrar_valores=True,
+        subtitulo= "De una muestra de 1000 datos"
     )
 
     # ============================
@@ -545,7 +656,9 @@ def funcion_graficos(df):
         hue="categoria",
         palette=paleta_categoria,
         edgecolor=COLOR_BORDE,
-        linewidth=0.8
+        linewidth=0.8,
+        mostrar_valores=True,
+        prefijo_valor="$"
     )
 
     # ==============================
@@ -556,7 +669,7 @@ def funcion_graficos(df):
         sns.scatterplot,
         "Relación entre cantidad de equipos y consumo",
         "Cantidad de equipos",
-        "Consumo (kWh)",
+        "Consumo energético (kWh)",
         leyenda=True,
         data=df,
         x="cantidad_equipos",
@@ -573,7 +686,7 @@ def funcion_graficos(df):
         sns.scatterplot,
         "Impacto de las horas de alto consumo",
         "Horas de alto consumo",
-        "Consumo (kWh)",
+        "Consumo energético (kWh)",
         leyenda=True,
         data=df,
         x="horas_alto_consumo",
@@ -606,7 +719,9 @@ def funcion_graficos(df):
         hue_order=orden_tipo,
         palette=paleta_tipo,
         edgecolor=COLOR_BORDE,
-        linewidth=0.8
+        linewidth=0.8,
+        mostrar_valores=True,
+        prefijo_valor="$"
     )
 
     # ==============================
@@ -617,7 +732,7 @@ def funcion_graficos(df):
         sns.countplot,
         "Tipo de inmueble por categoría de eficiencia energética",
         "Categoría de eficiencia energética",
-        "Cantidad",
+        "Cantidad de inmuebles",
         leyenda=True,
         data=df,
         x="categoria",
@@ -626,7 +741,9 @@ def funcion_graficos(df):
         hue_order=orden_tipo,
         palette=paleta_tipo,
         edgecolor=COLOR_BORDE,
-        linewidth=0.8
+        linewidth=0.8,
+        mostrar_valores=True,
+        subtitulo= "De una muestra de 1000 datos"
     )
 
     # ======================
@@ -636,13 +753,14 @@ def funcion_graficos(df):
     graficar(
         sns.histplot,
         "Distribución del consumo energético",
-        "Consumo (kWh)",
+        "Consumo energético (kWh)",
         "Cantidad de inmuebles",
         data=df,
         x="consumo_kwh",
         bins=30,
         kde=True,
-        color=COLOR_HISTOGRAMA
+        color=COLOR_HISTOGRAMA,
+        subtitulo= "De una muestra de 1000 datos"
     )
 
     # ===========================================
@@ -675,9 +793,17 @@ def funcion_graficos(df):
     # Matriz de correlación
     # =====================
 
+    variables_nombres = {
+        "cantidad_personas": "Cantidad de personas",
+        "cantidad_equipos": "Cantidad de equipos",
+        "consumo_kwh": "Consumo energético",
+        "costo_estimado": "Costo estimado",
+        "horas_alto_consumo": "Horas de alto consumo"
+    }
+
     correlacion = (
         df.select_dtypes(include=["int64", "float64"])
-          .corr()
+          .corr().rename(index= variables_nombres, columns= variables_nombres)
     )
 
     graficar(
@@ -689,9 +815,9 @@ def funcion_graficos(df):
         cmap=COLOR_CMAP_CORRELACION,
         fmt=".2f",
         linewidths=0.5,
-        linecolor="white"
+        linecolor="white",
+        rotacion_x=40,
+        centrar_labels_x=True
     )
 
-
 funcion_graficos(df)
-
