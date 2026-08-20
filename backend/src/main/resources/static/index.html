@@ -393,7 +393,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn-submit">
-                        ⚡ Enviar Petición a la API (POST)
+                        Calcular
                     </button>
                 </form>
 
@@ -632,7 +632,7 @@
 
                     liveResultBox.style.display = "block";
                     liveResponseJson.innerText =
-                        "Cargando respuesta de la API en Staging...";
+                        "Cargando respuesta de la API...";
                     badgeContainer.innerHTML = "";
 
                     // Construcción dinámica de la URL según el modelo seleccionado ('rf' o 'lr')
@@ -680,7 +680,7 @@
                         }
                     } catch (err) {
                         console.error(
-                            "Error al conectar con la API en Staging:",
+                            "Error al conectar con la API:",
                             err,
                         );
                         badgeContainer.innerHTML = `<span class="category-badge-live cat-ineficiente">❌ Error de Conexión</span>`;
