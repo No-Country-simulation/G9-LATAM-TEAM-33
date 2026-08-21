@@ -490,6 +490,14 @@ GET https://leafwatt.ddns.net/historial?categoria=Moderado&page=0&size=2
 | ------------------------------------------------------------------- |
 | ![Documentacion](assets/screenshots/Documentacion%20screenshot.png) |
 
+| 📑Historial📑                                                  |
+| -------------------------------------------------------------- |
+| ![Historial](assets/screenshots/Historial%20documentacion.png) |
+
+| 📑Resultado Historial📑                                              |
+| -------------------------------------------------------------------- |
+| ![Resultado Historial](assets/screenshots/Historial%20resultado.png) |
+
 ---
 
 # 📔 Diagramas
