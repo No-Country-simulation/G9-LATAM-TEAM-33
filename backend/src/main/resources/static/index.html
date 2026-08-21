@@ -585,6 +585,74 @@
 }</pre
                 >
             </div>
+
+            <!-- HISTORIAL ENDPOINT -->
+            <div class="card">
+                <div class="title">
+                    <h3>📜 Consultar Historial</h3>
+                    <span class="status-200">200 OK</span>
+                </div>
+
+                <div class="endpoint-box">
+                    <span class="method">GET</span>
+                    <span class="path">https://leafwatt.ddns.net/historial</span>
+                </div>
+
+                <p style="color: #94a3b8; font-size: 0.88rem; margin-bottom: 10px;">
+                    Devuelve el historial de análisis realizados, con paginación y filtro opcional por categoría.
+                </p>
+
+                <table class="field-table">
+                    <thead>
+                        <tr>
+                            <th>Parámetro</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="field-name">categoria</span></td>
+                            <td><span class="type">String</span></td>
+                            <td>
+                                Filtra por categoría exacta (Eficiente, Moderado o Ineficiente)
+                                <span class="required">opcional</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="field-name">page</span></td>
+                            <td><span class="type">Integer</span></td>
+                            <td>
+                                Número de página, empieza en 0. Por defecto 0.
+                                <span class="required">opcional</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="field-name">size</span></td>
+                            <td><span class="type">Integer</span></td>
+                            <td>
+                                Cantidad de resultados por página. Por defecto 10.
+                                <span class="required">opcional</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="section-label" style="margin-top: 16px">Ejemplo de Request:</p>
+                <pre>GET /historial?categoria=Moderado&page=0&size=2</pre>
+
+                <p class="section-label" style="margin-top: 16px">Ejemplo de Respuesta:</p>
+                <pre>
+{
+  "content": [
+    { "id": 1, "categoria": "Moderado", "consumo_kwh": 450.0, "...": "..." }
+  ],
+  "total_elements": 3,
+  "total_pages": 2,
+  "number": 0,
+  "size": 2
+}</pre>
+            </div>
         </div>
 
         <script>
