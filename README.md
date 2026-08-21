@@ -26,6 +26,8 @@ Una solución inteligente que utiliza Ciencia de Datos y Machine Learning
 para analizar patrones de consumo energético, clasificar perfiles de eficiencia y
 generar recomendaciones personalizadas que ayuden a reducir costos y fomentar un consumo responsable.
 
+**Prueba la aplicacion** 🔗 [https://leafwatt.ddns.net/](https://leafwatt.ddns.net/)
+
 ---
 
 # 📑 Índice
