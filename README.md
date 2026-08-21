@@ -1,7 +1,7 @@
 ![Logo](assets/Logos/Portada%20Leaf%20Watt%201.png)
 
-![https://www.youtube.com/channel/UCgF66HaRWpx01yt8DTqbQzA](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)
-![https://trello.com/b/c3USs77B/g9-latam-team-33](https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white)
+[![Canal de Youtube](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://www.youtube.com/channel/UCgF66HaRWpx01yt8DTqbQzA)
+[![Trello Board](https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white)](https://trello.com/b/c3USs77B/g9-latam-team-33)
 
 # 🍃 Leaf Watt⚡
 
