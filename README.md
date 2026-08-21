@@ -32,20 +32,11 @@ generar recomendaciones personalizadas que ayuden a reducir costos y fomentar un
 
 - [📌 Descripción](#-descripción)
 - [🎯 Objetivos](#-objetivos)
-    - [Objetivo General](#-objetivo-general)
-    - [Objetivos Individuales (Consumidores)](#-objetivos-individuales-consumidores)
 - [📋 Alcance del Proyecto](#-alcance-del-proyecto)
 - [✅ Tareas a Realizar](#-tareas-a-realizar)
-    - [Ciencia de Datos](#-ciencia-de-datos)
-    - [Back-End](#️-back-end)
-    - [Oracle Cloud Infrastructure](#️-oracle-cloud-infrastructure-oci)
-    - [Requisitos del MVP](#-requisitos-del-mvp)
-    - [Funcionalidades Opcionales](#-funcionalidades-opcionales)
-- [🛠 Tecnologías a Utilizar](#-tecnologías-a-utilizar)
+- [🛠 Tecnologías que ocupamos](#-tecnologias-que-ocupamos)
 - [💡 Soluciones](#-soluciones)
 - [📈 Categorías de Consumo](#-categorías-de-consumo)
-- [📦 API REST](#-api-rest)
-- [🚀 Instalación](#-instalación)
 - [▶️ Ejecución](#️-ejecución)
 - [📂 Estructura del Proyecto](#-estructura-del-proyecto)
 - [👥 Equipo](#-equipo)
@@ -144,27 +135,27 @@ Desarrollar una API REST que permita:
 
 ## ☁️ Oracle Cloud Infrastructure (OCI)
 
-Implementar los siguientes servicios:
+Implementar al menos uno de los siguientes servicios:
 
 - [x] Object Storage
 - [x] OCI Compute
-- [x] OCI Functions
-- [ ] OCI Database (Opcional)
+- [ ] OCI Functions
+- [ ] OCI Database
 
 ## 🚀 Requisitos del MVP
 
-- [ ] Modelo entrenado.
-- [ ] Clasificación funcional.
-- [ ] Recomendaciones automáticas.
-- [ ] Estimación financiera.
-- [ ] API documentada.
+- [x] Modelo entrenado.
+- [x] Clasificación funcional.
+- [x] Recomendaciones automáticas.
+- [x] Estimación financiera.
+- [x] API documentada.
 - [x] Integración con OCI.
-- [ ] Tres ejemplos de uso.
+- [x] Tres ejemplos de uso.
 
 ## ⭐ Funcionalidades Opcionales
 
 - [ ] Dashboard interactivo.
-- [ ] Historial de consultas.
+- [x] Historial de consultas.
 - [ ] Procesamiento mediante CSV.
 - [ ] Docker.
 - [ ] Pruebas automatizadas.
@@ -176,43 +167,56 @@ Implementar los siguientes servicios:
 
 ---
 
-# 🛠 Tecnologías a Utilizar
+# 🛠 Tecnologias que ocupamos
 
-## Lenguajes
+#### Lenguajes
 
 - Java 17
 - Python 3.12
 - JSON
 
-## Frameworks
+#### Machine Learning
 
-- Spring Boot
-- Scikit-Learn
+- Python
+- Scikit-learn
 - Pandas
-- NumPy
-
-## Machine Learning
-
+- Numpy
+- Joblib
 - Regresión Logística
 - Random Forest
-- Árboles de Decisión
 
-## Cloud Computing
+### Cloud Computing
 
 - Oracle Cloud Infrastructure (OCI)
-- Object Storage
+- Object Storage (OCI)
 - OCI Compute
-- OCI Functions
 
-## Front-End (Opcional)
+### Front-End
 
 - HTML5
 - CSS3
 - JavaScript
 
-## DevOps (Opcional)
+### Backend
 
-- Docker
+- Spring Boot
+- FastAPI
+- nginx
+- Uvicorn
+
+### Database
+
+- PostgreSQL
+- Hibernate / Spring Data JPA
+
+### DevOps
+
+- Git + Github Actions
+
+### Deployment
+
+- Certbot / Let's Encrypt
+- NoIP.com
 
 ---
 
@@ -269,29 +273,32 @@ El modelo clasificará a los usuarios en tres perfiles:
 
 ---
 
-# 🚀 Instalación
-
-```bash
-git clone https://github.com/No-Country-simulation/G9-LATAM-TEAM-33.git
-
-cd proyecto
-```
-
----
-
 # ▶️ Ejecución
 
-### Back-End
+Para ocupar la aplicacion sigua los siguientes pasos:
 
-```bash
-xxxxxxxxxxxxxxx
+### 1- Front End
+
+Link a aplicacion - [LeafWatt](https://leafwatt.ddns.net/)
+Dentro de la aplicacion rellene sus datos en el formulario y presione el boton **'Calcular'**
+
+### 2- Peticion directa
+
+En una aplicacion como **Postman** manda una peticion POST a https://leafwatt.ddns.net/{version}/analisis-energetico con un payload **JSON** como:
+
+```
+{
+    "consumo_kwh": 30,
+    "uso_horario_pico": true,
+    "horas_alto_consumo": 10,
+    "cantidad_equipos": 2,
+    "cantidad_personas": 2,
+    "tipo_inmueble": "Casa",
+    "mes":1
+}
 ```
 
-### Ciencia de Datos
-
-```bash
-xxxxxxxxxxxxxxx
-```
+{version} puede ser 'v1' o 'v2'
 
 ---
 
@@ -300,24 +307,37 @@ xxxxxxxxxxxxxxx
 ```text
 📦 Leaf Watt
 │
-├── 📁 .github/workflows
+├── 📁 .github/
+│   └── 📁 workflows/
+│       └── upload-to-OCI-prod.yml
 │
-├── 📁 OCI/Functions
+├── 📁 OCI/
+│   └── 📁 Functions/
+│       └──  📁 makeprediction_arm
 │
 ├── 📁 assets/
 │
 ├── 📁 backend/
+│   └── 📁 source/
 │
 ├── 📁 data-science/
+│   └── 📁 notebooks/
+│       └── EnergIA_Notebook.ipynb
 │
 ├── 📁 demonstration-backend/
+│   └── 📁 source/
 │
 ├── 📁 docs/
 │
+├── 📁 fast-api/
+│   └── app.py
+│
 ├── 📁 model-service/
+│   ├── 📁 local-test/
+│   └── 📁 oci-function/
 │
 ├── .gitignore
-├── README.md
+└── README.md
 
 ```
 
@@ -330,6 +350,7 @@ xxxxxxxxxxxxxxx
 - `data-science/` — Notebooks con analisis, preprocesamiento, entrenamiento, etc. de la Data.
 - `demonstration-backend/` — Codigo de prueba para integracion con OCI.
 - `docs/` — Documentacion de la API, Proyecto, etc.
+- `fast-api` — Codigo Python/FastAPI de produccion.
 - `model-service/` — Primer codigo Python/FastAPI de respaldo.
 
 ---
