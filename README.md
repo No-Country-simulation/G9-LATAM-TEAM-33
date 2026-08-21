@@ -37,10 +37,11 @@ generar recomendaciones personalizadas que ayuden a reducir costos y fomentar un
 - [📋 Alcance del Proyecto](#-alcance-del-proyecto)
 - [💻 Tareas a Realizar](#-tareas-a-realizar)
 - [✅ Requisitos](#-requisitos)
-- [🛠 Tecnologías que ocupamos](#-tecnologias-que-ocupamos)
-- [💡 Soluciones](#-soluciones)
-- [📈 Categorías de Consumo](#-categorías-de-consumo)
+- [🔨 Tecnologías que ocupamos](#-tecnologias-que-ocupamos)
+- [📊 Ciencia de Datos](#-ciencia-de-datos)
 - [▶️ Ejecución](#️-ejecución)
+- [📷 Screenshots](#-screenshots)
+- [📔 Diagramas](#-diagramas)
 - [📂 Estructura del Proyecto](#-estructura-del-proyecto)
 - [👥 Equipo](#-equipo)
 - [📄 Licencia](#-licencia)
@@ -113,7 +114,7 @@ Con estos datos clasificará al usuario en un perfil energético y ofrecerá rec
 
 # 💻 Tareas a Realizar
 
-## 📊 Ciencia de Datos
+## 📊 Equipo Data
 
 - Recolección de datos.
 - Limpieza y preparación (EDA).
@@ -123,7 +124,7 @@ Con estos datos clasificará al usuario en un perfil energético y ofrecerá rec
 - Serialización del modelo.
 - Generación de recomendaciones.
 
-## ⚙️ Back-End
+## ⚙️ Equipo Back-End
 
 Desarrollar una API REST que permita:
 
@@ -174,7 +175,7 @@ Implementar al menos uno de los siguientes servicios:
 
 ---
 
-# 🛠 Tecnologias que ocupamos
+# 🔨 Tecnologias que ocupamos
 
 #### Lenguajes
 
@@ -227,56 +228,166 @@ Implementar al menos uno de los siguientes servicios:
 
 ---
 
-# 💡 Soluciones
+# 📊 Ciencia de Datos
 
-## 🌍 Solución General
+Notebook completo, ejecutable en Google Colab: [`data-science/notebooks/Colab_EnergIA33.ipynb`](data-science/notebooks/Colab_EnergIA33.ipynb) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KeMMxB_1OCkvIIKjeG6jMWbYgXkpM30e?usp=sharing)
 
-Transformar datos de consumo eléctrico en información útil mediante algoritmos de Machine Learning para ayudar a mejorar la eficiencia energética.
+## 📊 Dataset
 
-La plataforma permitirá:
+El dataset utilizado contiene **10.000 registros sintéticos** generados específicamente para el desarrollo y evaluación del proyecto.
 
-- Clasificar perfiles energéticos.
-- Detectar desperdicios.
-- Estimar el costo del consumo.
-- Generar recomendaciones inteligentes.
-- Integrarse con otros sistemas mediante API REST.
+| Característica |                    Valor |
+| -------------- | -----------------------: |
+| Registros      |                   10.000 |
+| Categorías     |                        3 |
+| Duplicados     |                        0 |
+| Formato        |                      CSV |
+| Archivo        | `consumo_energetico.csv` |
 
-## 👤 Soluciones Individuales
+### Variable objetivo
 
-### 🏠 Usuario Final
+El modelo busca predecir uno de los siguientes perfiles:
 
-Obtendrá:
+| Categoría          | Descripción                        |
+| ------------------ | ---------------------------------- |
+| 🟢 **Eficiente**   | Perfil de consumo eficiente        |
+| 🟡 **Moderado**    | Perfil con oportunidades de mejora |
+| 🔴 **Ineficiente** | Perfil con consumo elevado         |
 
-- Perfil energético.
-- Nivel de eficiencia.
-- Probabilidad de clasificación.
-- Recomendaciones personalizadas.
-- Estimación mensual del consumo.
-- Historial de análisis (si se implementa).
+### Documentación
 
-### 👨‍💻 Equipo Técnico
+La generación, limpieza, exploración y preparación del dataset se encuentra documentada en el notebook del proyecto.
 
-Dispondrá de:
+> **Nota:** los datos utilizados son sintéticos y fueron generados con fines académicos y de demostración. No representan mediciones reales de consumo energético.
 
-- Modelo de Machine Learning.
-- API REST documentada.
-- Arquitectura escalable.
-- Integración con Oracle Cloud.
-- Respuestas en formato JSON.
+## 🤖 Machine Learning
 
----
+Se evaluaron dos algoritmos de clasificación:
 
-# 📈 Categorías de Consumo
+| Modelo                 | Técnica                  |
+| ---------------------- | ------------------------ |
+| 🌳 Random Forest       | `RandomForestClassifier` |
+| 📈 Regresión Logística | `LogisticRegression`     |
 
-El modelo clasificará a los usuarios en tres perfiles:
+Ambos modelos reciben las mismas variables de entrada y predicen una de las tres categorías de eficiencia energética.
 
-| Categoría      | Descripción                                   |
-| -------------- | --------------------------------------------- |
-| 🟢 Eficiente   | Consumo optimizado                            |
-| 🟡 Moderado    | Consumo aceptable con oportunidades de mejora |
-| 🔴 Ineficiente | Alto consumo y desperdicio energético         |
+## 🌳 Random Forest
 
----
+| Técnica                  | Formato                   | Artefacto            |
+| ------------------------ | ------------------------- | -------------------- |
+| `RandomForestClassifier` | Serializado con `joblib`. | `modelo_consumo.pkl` |
+
+### Configuración
+
+| Parámetro      | Valor |
+| -------------- | ----: |
+| `n_estimators` |   200 |
+
+### Resultados
+
+| Métrica           | Resultado |
+| ----------------- | --------: |
+| Accuracy          |  **0.82** |
+| F1-score Macro    |  **0.81** |
+| F1-score Weighted |  **0.83** |
+
+## 📈 Regresión Logística
+
+| Técnica              | Formato                   | Artefacto            |
+| -------------------- | ------------------------- | -------------------- |
+| `LogisticRegression` | Serializado con `joblib`. | `EnergiSense-LR.pkl` |
+
+### Configuración
+
+| Parámetro  |   Valor |
+| ---------- | ------: |
+| `solver`   | `lbfgs` |
+| `max_iter` |    1000 |
+
+### Preprocesamiento
+
+| Variable            | Transformación   |
+| ------------------- | ---------------- |
+| `tipo_inmueble`     | `OneHotEncoder`  |
+| Variables numéricas | `StandardScaler` |
+
+### Resultados
+
+| Métrica           | Resultado |
+| ----------------- | --------: |
+| Accuracy          |  **0.77** |
+| F1-score Macro    |  **0.77** |
+| F1-score Weighted |  **0.78** |
+
+## 🔬 Ciencia de Datos
+
+### Resumen general
+
+El proyecto implementa un flujo completo de Ciencia de Datos:
+
+| Etapa               | Descripción                                     |
+| ------------------- | ----------------------------------------------- |
+| 1️⃣ Generación       | Creación del dataset sintético                  |
+| 2️⃣ Limpieza         | Revisión y preparación de los datos             |
+| 3️⃣ EDA              | Análisis exploratorio                           |
+| 4️⃣ Preprocesamiento | Transformación de variables                     |
+| 5️⃣ Entrenamiento    | Entrenamiento de los modelos                    |
+| 6️⃣ Validación       | Evaluación sobre datos de prueba                |
+| 7️⃣ Comparación      | Análisis de Random Forest y Regresión Logística |
+| 8️⃣ Predicción       | Clasificación de nuevos casos                   |
+| 9️⃣ Indicadores      | Cálculo de métricas adicionales                 |
+| 🔟 Recomendaciones  | Generación de recomendaciones personalizadas    |
+
+## 🧪 Validación
+
+Los datos fueron divididos utilizando una proporción:
+
+| Conjunto      | Porcentaje |
+| ------------- | ---------: |
+| Entrenamiento |        80% |
+| Prueba        |        20% |
+
+Se utilizó `stratify` durante la división para mantener una distribución representativa de las categorías.
+
+### Métricas utilizadas
+
+| Métrica             | Objetivo                                      |
+| ------------------- | --------------------------------------------- |
+| Accuracy            | Medir la proporción de predicciones correctas |
+| Precision           | Evaluar la precisión de las predicciones      |
+| Recall              | Medir la capacidad de detectar cada clase     |
+| F1-score            | Combinar Precision y Recall                   |
+| Matriz de confusión | Analizar errores entre categorías             |
+| Probabilidad        | Medir la confianza de cada predicción         |
+
+## 🆚 Comparación de modelos
+
+Ambos modelos fueron entrenados utilizando el mismo dataset y evaluados sobre el mismo conjunto de prueba.
+
+| Modelo                 | Accuracy | F1-score |
+| ---------------------- | -------: | -------: |
+| 🌳 Random Forest       | **0.86** | **0.86** |
+| 📈 Regresión Logística | **0.77** | **0.77** |
+
+Además de las métricas generales, se realizaron pruebas con diferentes escenarios de consumo para observar cómo cambia la predicción y la probabilidad asignada por cada modelo.
+
+### ⚠️ Limitaciones
+
+El modelo fue entrenado utilizando **datos sintéticos**, por lo que los resultados deben interpretarse como una demostración del funcionamiento de la solución.
+
+Las categorías **Eficiente, Moderado e Ineficiente** no constituyen un diagnóstico energético profesional.
+
+### Para una implementación productiva sería necesario:
+
+| Acción                       | Objetivo                             |
+| ---------------------------- | ------------------------------------ |
+| 📊 Utilizar datos reales     | Mejorar la representatividad         |
+| 🔄 Reentrenar los modelos    | Adaptarlos a datos reales            |
+| ⚖️ Balancear las categorías  | Evitar sesgos                        |
+| 👨‍🔬 Validar con especialistas | Validar las categorías               |
+| 📈 Monitorear el modelo      | Detectar pérdida de rendimiento      |
+| 🔄 Reentrenar periódicamente | Mantener actualizado el modelo       |
+| 💡 Mejorar recomendaciones   | Aumentar la utilidad para el usuario |
 
 ---
 
@@ -291,9 +402,11 @@ Dentro de la aplicacion rellene sus datos en el formulario y presione el boton *
 
 ### 2- Peticion directa
 
-En una aplicacion como **Postman** manda una peticion POST a https://leafwatt.ddns.net/{version}/analisis-energetico con un payload **JSON** como:
+En una aplicacion como **Postman** manda una peticion POST a https://leafwatt.ddns.net/{version}/analisis-energetico `{version} puede ser 'v1' o 'v2'` con un payload **JSON**.
 
-```
+**Ejemplo de peticion:**
+
+```json
 {
     "consumo_kwh": 30,
     "uso_horario_pico": true,
@@ -301,11 +414,68 @@ En una aplicacion como **Postman** manda una peticion POST a https://leafwatt.dd
     "cantidad_equipos": 2,
     "cantidad_personas": 2,
     "tipo_inmueble": "Casa",
-    "mes":1
+    "mes": 1
 }
 ```
 
-{version} puede ser 'v1' o 'v2'
+**Ejemplo de respuesta:**
+
+```json
+{
+    "categoria": "Moderado",
+    "probabilidad": 0.48,
+    "recomendaciones": [
+        {
+            "prioridad": "Alta",
+            "impacto": "Alto",
+            "mensaje": "Evite utilizar varios equipos de alto consumo simultáneamente durante el horario pico."
+        },
+        {
+            "prioridad": "Baja",
+            "impacto": "Bajo",
+            "mensaje": "Mejorar el aislamiento de puertas y ventanas ayuda a reducir el uso de calefacción."
+        }
+    ],
+    "costo_estimado_mensual": 337.5,
+    "indicadores": {
+        "consumo_por_equipo": 50,
+        "consumo_por_persona": 75,
+        "consumo_por_hora": 150
+    }
+}
+```
+
+---
+
+# 📷 Screenshots
+
+| ⚡Inicio⚡                                            |
+| ----------------------------------------------------- |
+| ![Inicio](assets/screenshots/Inicio%20screenshot.png) |
+
+| 🧪Formulario🧪                                                |
+| ------------------------------------------------------------- |
+| ![Formulario](assets/screenshots/Formulario%20screenshot.png) |
+
+| 📋Resultado📋                                               |
+| ----------------------------------------------------------- |
+| ![Resultado](assets/screenshots/Resultado%20screenshot.png) |
+
+| 📑Documentacion📑                                                   |
+| ------------------------------------------------------------------- |
+| ![Documentacion](assets/screenshots/Documentacion%20screenshot.png) |
+
+---
+
+# 📔 Diagramas
+
+## Diagrama de flujo
+
+![Diagrama de Flujo](assets/diagramas/Diagrama_de_Flujo_Actulizado.png)
+
+## Diagrama OCI
+
+![Diagrama OCI](assets/diagramas/Diagrama_OCI_Region.png)
 
 ---
 
@@ -329,7 +499,7 @@ En una aplicacion como **Postman** manda una peticion POST a https://leafwatt.dd
 │
 ├── 📁 data-science/
 │   └── 📁 notebooks/
-│       └── EnergIA_Notebook.ipynb
+│       └── Colab_EnergIA33.ipynb
 │
 ├── 📁 demonstration-backend/
 │   └── 📁 source/
@@ -369,7 +539,7 @@ En una aplicacion como **Postman** manda una peticion POST a https://leafwatt.dd
 | Jhon Fernando Gomez Villa | Backend          | Desarrollo de la API                     | [Linkedin](https://www.linkedin.com/in/jhon-fernando-gómez-villa-4a6bb6341) - [Github](https://github.com/JHFEGOVI)  |
 | Angie Alejandra Vega      | Frontend         | Desarrollo del Front End                 | [Linkedin](https://www.linkedin.com/in/angiealejandravegaromero) - [Github](https://github.com/AngieVegaR)           |
 | Jhon Rodríguez            | Ciencia de Datos | Modelado y entrenamiento                 |
-| Tomas Raggio              | Ciencia de Datos | Modelado y entrenamiento                 | [Github](https://github.com/innit-tomi)                                                                              |
+| Tomas Raggio              | Ciencia de Datos | Modelado y entrenamiento                 | [Linkedin](https://www.linkedin.com/in/tomás-raggio/) - [Github](https://github.com/innit-tomi)                      |
 | Angela Balta              | Ciencia de Datos | Graficos                                 | [Linkedin](https://www.linkedin.com/in/angela-balta-412506140) - [Github](https://github.com/Anel-7)                 |
 | Isaac Ruiz                | Ciencia de Datos | Modelado y entrenamiento                 |
 | Matias Marquez            | Documentación    | README y presentación                    | [Linkedin](https://www.linkedin.com/in/matias-ivan-marquez-b05888378/) - [Github](https://github.com/MarquezIMatias) |
@@ -382,3 +552,5 @@ En una aplicacion como **Postman** manda una peticion POST a https://leafwatt.dd
 Este proyecto fue desarrollado con fines educativos como parte del **Hackathon ONE G9 - Alura Latam + Oracle Next Education**.
 
 No está destinado a uso comercial.
+
+---
