@@ -1,366 +1,551 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnergiAI - API Backend</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
-            margin: 0;
-            padding: 40px 20px;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #1e293b;
-            padding: 35px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-        }
-        h1 {
-            color: #10b981;
-            margin-top: 8px;
-            font-size: 2.2rem;
-        }
-        .badge {
-            background-color: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .card {
-            background-color: #0f172a;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 1px solid #334155;
-        }
-        .card h3 {
-            margin-top: 0;
-            color: #38bdf8;
-            font-size: 1.15rem;
-        }
-        pre {
-            background-color: #090d16;
-            padding: 15px;
-            border-radius: 8px;
-            color: #34d399;
-            font-family: 'Consolas', 'Fira Code', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-            border: 1px solid #1e293b;
-        }
-        .endpoint-box {
-            background-color: #090d16;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 16px 0;
-        }
-        .method {
-            background-color: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-            font-weight: 700;
-            font-size: 0.85rem;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-family: monospace;
-        }
-        .path {
-            font-family: 'Consolas', 'Fira Code', monospace;
-            color: #f8fafc;
-            font-size: 0.95rem;
-        }
-        .field-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-            margin-top: 8px;
-        }
-        .field-table th {
-            text-align: left;
-            color: #94a3b8;
-            font-weight: 600;
-            padding: 8px 10px;
-            border-bottom: 1px solid #334155;
-        }
-        .field-table td {
-            padding: 8px 10px;
-            border-bottom: 1px solid #1e293b;
-            color: #cbd5e1;
-            vertical-align: top;
-        }
-        .field-table tr:last-child td { border-bottom: none; }
-        .type {
-            color: #38bdf8;
-            font-family: monospace;
-            font-size: 0.82rem;
-        }
-        .required {
-            color: #f87171;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        .field-name {
-            font-family: monospace;
-            color: #34d399;
-        }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 8px; }
-        .status-400 {
-            display: inline-block;
-            background-color: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 8px;
-            font-family: monospace;
-        }
-        .status-200 {
-            display: inline-block;
-            background-color: rgba(16, 185, 129, 0.15);
-            color: #34d399;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 8px;
-            font-family: monospace;
-        }
-        .section-label {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            margin-bottom: 6px;
-        }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>EnergiAI - API Backend</title>
+        <style>
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #0f172a;
+                color: #f8fafc;
+                margin: 0;
+                padding: 40px 20px;
+                line-height: 1.6;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: #1e293b;
+                padding: 35px;
+                border-radius: 12px;
+                border: 1px solid #334155;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            }
+            h1 {
+                color: #10b981;
+                margin-top: 8px;
+                font-size: 2.2rem;
+            }
+            .badge {
+                background-color: rgba(16, 185, 129, 0.2);
+                color: #34d399;
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+            .card {
+                background-color: #0f172a;
+                padding: 20px;
+                border-radius: 10px;
+                margin: 20px 0;
+                border: 1px solid #334155;
+            }
+            .card .title {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .card h3 {
+                margin: 0;
+                color: #38bdf8;
+                font-size: 1.15rem;
+            }
 
-        /* --- ESTILOS DEL FORMULARIO Y CLIENTE WEB --- */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-top: 10px;
-        }
-        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
-        .form-group { display: flex; flex-direction: column; gap: 4px; }
-        .form-group label { font-size: 0.85rem; color: #cbd5e1; font-weight: 600; }
-        .form-group input, .form-group select {
-            background-color: #090d16;
-            border: 1px solid #334155;
-            border-radius: 6px;
-            padding: 8px 12px;
-            color: #f8fafc;
-            font-size: 0.9rem;
-        }
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #10b981;
-        }
+            .card h4 {
+                margin: 0;
+                color: #70ccf5;
+                font-size: 0.95rem;
+            }
+            pre {
+                background-color: #090d16;
+                padding: 15px;
+                border-radius: 8px;
+                color: #34d399;
+                font-family: "Consolas", "Fira Code", monospace;
+                font-size: 0.9rem;
+                overflow-x: auto;
+                border: 1px solid #1e293b;
+            }
+            .endpoint-box {
+                background-color: #090d16;
+                border: 1px solid #334155;
+                border-radius: 8px;
+                padding: 12px 16px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 16px 0;
+            }
+            .method {
+                background-color: rgba(16, 185, 129, 0.2);
+                color: #34d399;
+                font-weight: 700;
+                font-size: 0.85rem;
+                padding: 4px 10px;
+                border-radius: 6px;
+                font-family: monospace;
+            }
+            .path {
+                font-family: "Consolas", "Fira Code", monospace;
+                color: #f8fafc;
+                font-size: 0.95rem;
+            }
+            .field-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.88rem;
+                margin-top: 8px;
+            }
+            .field-table th {
+                text-align: left;
+                color: #94a3b8;
+                font-weight: 600;
+                padding: 8px 10px;
+                border-bottom: 1px solid #334155;
+            }
+            .field-table td {
+                padding: 8px 10px;
+                border-bottom: 1px solid #1e293b;
+                color: #cbd5e1;
+                vertical-align: top;
+            }
+            .field-table tr:last-child td {
+                border-bottom: none;
+            }
+            .type {
+                color: #38bdf8;
+                font-family: monospace;
+                font-size: 0.82rem;
+            }
+            .required {
+                color: #f87171;
+                font-size: 0.8rem;
+                font-weight: 600;
+            }
+            .field-name {
+                font-family: monospace;
+                color: #34d399;
+            }
+            ul {
+                padding-left: 20px;
+            }
+            li {
+                margin-bottom: 8px;
+            }
+            .status-400 {
+                display: inline-block;
+                background-color: rgba(239, 68, 68, 0.15);
+                color: #f87171;
+                font-size: 0.8rem;
+                font-weight: 600;
+                padding: 2px 8px;
+                border-radius: 4px;
+                margin-left: 8px;
+                font-family: monospace;
+            }
+            .status-200 {
+                display: inline-block;
+                background-color: rgba(16, 185, 129, 0.15);
+                color: #34d399;
+                font-size: 0.8rem;
+                font-weight: 600;
+                padding: 2px 8px;
+                border-radius: 4px;
+                margin-left: 8px;
+                font-family: monospace;
+            }
+            .section-label {
+                font-size: 0.8rem;
+                color: #94a3b8;
+                margin-bottom: 6px;
+            }
 
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
+            /* --- ESTILOS DEL FORMULARIO Y CLIENTE WEB --- */
+            .form-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+                margin-top: 10px;
+            }
+            @media (max-width: 600px) {
+                .form-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .form-group label {
+                font-size: 0.85rem;
+                color: #cbd5e1;
+                font-weight: 600;
+            }
+            .form-group input,
+            .form-group select {
+                background-color: #090d16;
+                border: 1px solid #334155;
+                border-radius: 6px;
+                padding: 8px 12px;
+                color: #f8fafc;
+                font-size: 0.9rem;
+            }
+            .form-group input:focus,
+            .form-group select:focus {
+                outline: none;
+                border-color: #10b981;
+            }
 
-        .btn-submit {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 16px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 16px;
-            transition: opacity 0.2s;
-        }
-        .btn-submit:hover { opacity: 0.9; }
-        .category-badge-live {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-        .cat-eficiente { background-color: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
-        .cat-moderado { background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
-        .cat-ineficiente { background-color: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <span class="badge">Hackathon EnergiAI</span>
-    <h1>&#x26A1; EnergiAI - Java Backend API</h1>
-    <p>Solución inteligente para el análisis, clasificación y optimización del consumo de energía eléctrica.</p>
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            input[type="number"] {
+                -moz-appearance: textfield;
+            }
 
-    <!-- FUNCIONALIDADES -->
-    <div class="card">
-        <h3>&#x1F4CC; Funcionalidades de la API</h3>
-        <ul>
-            <li><strong>Clasificación:</strong> Categoriza el perfil energético en <span style="color:#10b981;">Eficiente</span>, <span style="color:#f59e0b;">Moderado</span> o <span style="color:#ef4444;">Ineficiente</span>.</li>
-            <li><strong>Costo estimado:</strong> Cálculo del costo mensual según tarifa de referencia de <strong>$0,75 por kWh</strong>.</li>
-            <li><strong>Modelos ML:</strong> Selección dinámica del algoritmo entre <strong>Random Forest (`rf`)</strong> y <strong>Regresión Logística (`lr`)</strong>.</li>
-            <li><strong>Indicadores:</strong> Consumo por equipo, por persona y por hora de alto consumo.</li>
-            <li><strong>Recomendaciones:</strong> Sugerencias personalizadas con prioridad e impacto para reducir el gasto energético.</li>
-        </ul>
-    </div>
+            .btn-submit {
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+                border: none;
+                border-radius: 6px;
+                padding: 10px 16px;
+                font-weight: 700;
+                font-size: 0.95rem;
+                cursor: pointer;
+                width: 100%;
+                margin-top: 16px;
+                transition: opacity 0.2s;
+            }
+            .btn-submit:hover {
+                opacity: 0.9;
+            }
+            .category-badge-live {
+                display: inline-block;
+                padding: 4px 12px;
+                border-radius: 6px;
+                font-weight: bold;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .cat-eficiente {
+                background-color: rgba(16, 185, 129, 0.2);
+                color: #34d399;
+                border: 1px solid #10b981;
+            }
+            .cat-moderado {
+                background-color: rgba(245, 158, 11, 0.2);
+                color: #fbbf24;
+                border: 1px solid #f59e0b;
+            }
+            .cat-ineficiente {
+                background-color: rgba(239, 68, 68, 0.2);
+                color: #f87171;
+                border: 1px solid #ef4444;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <span class="badge">Hackathon EnergiAI</span>
+            <h1>&#x26A1; EnergiAI - Java Backend API</h1>
+            <p>
+                Solución inteligente para el análisis, clasificación y
+                optimización del consumo de energía eléctrica.
+            </p>
 
-    <!-- CLIENTE WEB INTERACTIVO -->
-    <div class="card" style="border: 1px solid #10b981;">
-        <h3>🧪 Probador Interactivo de la API (Cliente Web)</h3>
-        <p style="color:#94a3b8; font-size:0.88rem; margin-bottom: 12px;">Completa el formulario para realizar una petición dinámicamente según el modelo seleccionado:</p>
+            <!-- FUNCIONALIDADES -->
+            <div class="card">
+                <h3>&#x1F4CC; Funcionalidades de la API</h3>
+                <ul>
+                    <li>
+                        <strong>Clasificación:</strong> Categoriza el perfil
+                        energético en
+                        <span style="color: #10b981">Eficiente</span>,
+                        <span style="color: #f59e0b">Moderado</span> o
+                        <span style="color: #ef4444">Ineficiente</span>.
+                    </li>
+                    <li>
+                        <strong>Costo estimado:</strong> Cálculo del costo
+                        mensual según tarifa de referencia de
+                        <strong>$0,75 por kWh</strong>.
+                    </li>
+                    <li>
+                        <strong>Modelos ML:</strong> Selección dinámica del
+                        algoritmo entre <strong>Random Forest (`rf`)</strong> y
+                        <strong>Regresión Logística (`lr`)</strong>.
+                    </li>
+                    <li>
+                        <strong>Indicadores:</strong> Consumo por equipo, por
+                        persona y por hora de alto consumo.
+                    </li>
+                    <li>
+                        <strong>Recomendaciones:</strong> Sugerencias
+                        personalizadas con prioridad e impacto para reducir el
+                        gasto energético.
+                    </li>
+                </ul>
+            </div>
 
-        <form id="apiTestForm">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="consumo_kwh">consumo_kwh:</label>
-                    <input type="number" id="consumo_kwh" value="450" required step="any">
-                </div>
-                <div class="form-group">
-                    <label for="uso_horario_pico">uso_horario_pico:</label>
-                    <select id="uso_horario_pico">
-                        <option value="true" selected>true (Sí)</option>
-                        <option value="false">false (No)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="horas_alto_consumo">horas_alto_consumo:</label>
-                    <input type="number" id="horas_alto_consumo" value="3" required>
-                </div>
-                <div class="form-group">
-                    <label for="cantidad_equipos">cantidad_equipos:</label>
-                    <input type="number" id="cantidad_equipos" value="9" required>
-                </div>
-                <div class="form-group">
-                    <label for="cantidad_personas">cantidad_personas:</label>
-                    <input type="number" id="cantidad_personas" value="6" required>
-                </div>
-                <div class="form-group">
-                    <label for="tipo_inmueble">tipo_inmueble:</label>
-                    <select id="tipo_inmueble">
-                        <option value="Casa" selected>Casa</option>
-                        <option value="Departamento">Departamento</option>
-                        <option value="Comercio">Comercio</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="mes">mes (1-12):</label>
-                    <input type="number" id="mes" value="7" min="1" max="12" required>
-                </div>
-                <div class="form-group">
-                    <label for="modelo">modelo (Algoritmo ML):</label>
-                    <select id="modelo" required>
-                        <option value="rf" selected>Random Forest ('rf')</option>
-                        <option value="lr">Regresión Logística ('lr')</option>
-                    </select>
+            <!-- CLIENTE WEB INTERACTIVO -->
+            <div class="card" style="border: 1px solid #10b981">
+                <h3>🧪 Probador Interactivo de la API (Cliente Web)</h3>
+                <p
+                    style="
+                        color: #94a3b8;
+                        font-size: 0.88rem;
+                        margin-bottom: 12px;
+                    "
+                >
+                    Completa el formulario para realizar una petición
+                    dinámicamente según el modelo seleccionado:
+                </p>
+
+                <form id="apiTestForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="consumo_kwh">consumo en kwh:</label>
+                            <input
+                                type="number"
+                                id="consumo_kwh"
+                                value="450"
+                                required
+                                step="any"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="uso_horario_pico"
+                                >uso en horario pico:</label
+                            >
+                            <select id="uso_horario_pico">
+                                <option value="true" selected>Si</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="horas_alto_consumo"
+                                >horas de alto consumo:</label
+                            >
+                            <input
+                                type="number"
+                                id="horas_alto_consumo"
+                                value="3"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidad_equipos"
+                                >cantidad de equipos:</label
+                            >
+                            <input
+                                type="number"
+                                id="cantidad_equipos"
+                                value="9"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidad_personas"
+                                >cantidad de personas:</label
+                            >
+                            <input
+                                type="number"
+                                id="cantidad_personas"
+                                value="6"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo_inmueble">tipo de inmueble:</label>
+                            <select id="tipo_inmueble">
+                                <option value="Casa" selected>Casa</option>
+                                <option value="Departamento">
+                                    Departamento
+                                </option>
+                                <option value="Comercio">Comercio</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mes">mes (1-12):</label>
+                            <input
+                                type="number"
+                                id="mes"
+                                value="7"
+                                min="1"
+                                max="12"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="modelo">modelo (Algoritmo ML):</label>
+                            <select id="modelo" required>
+                                <option value="rf" selected>
+                                    Random Forest ('rf')
+                                </option>
+                                <option value="lr">
+                                    Regresión Logística ('lr')
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        Calcular
+                    </button>
+                </form>
+
+                <div
+                    id="liveResultBox"
+                    style="
+                        display: none;
+                        margin-top: 20px;
+                        border-top: 1px solid #334155;
+                        padding-top: 15px;
+                    "
+                >
+                    <p class="section-label">Resultado obtenido en vivo:</p>
+                    <div id="badgeContainer"></div>
+                    <pre id="liveResponseJson"></pre>
                 </div>
             </div>
-            <button type="submit" class="btn-submit">⚡ Enviar Petición a la API (POST)</button>
-        </form>
 
-        <div id="liveResultBox" style="display:none; margin-top:20px; border-top: 1px solid #334155; padding-top: 15px;">
-            <p class="section-label">Resultado obtenido en vivo:</p>
-            <div id="badgeContainer"></div>
-            <pre id="liveResponseJson"></pre>
-        </div>
-    </div>
+            <!-- ENDPOINT -->
+            <div class="card">
+                <div class="title">
+                    <h3>&#x1F310; Endpoint Dinámico</h3>
+                    -
+                    <h4>
+                        version 'v1' para modelo 'lr' o version 'v2' para modelo
+                        'rf'
+                    </h4>
+                </div>
 
-    <!-- ENDPOINT -->
-    <div class="card">
-        <h3>&#x1F310; Endpoint Dinámico</h3>
-        <div class="endpoint-box">
-            <span class="method">POST</span>
-            <span class="path">http://146.181.51.129/staging/analisis-energetico/{modelo}</span>
-        </div>
+                <div class="endpoint-box">
+                    <span class="method">POST</span>
+                    <span class="path"
+                        >https://leafwatt.ddns.net/{version}/analisis-energetico</span
+                    >
+                </div>
 
-        <p style="color:#94a3b8; font-size:0.88rem; margin-bottom: 10px;">Campos del body (application/json):</p>
-        <table class="field-table">
-            <thead>
-            <tr>
-                <th>Campo</th>
-                <th>Tipo</th>
-                <th>Descripción</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><span class="field-name">consumo_kwh</span></td>
-                <td><span class="type">Number</span></td>
-                <td>Consumo mensual en kWh <span class="required">requerido</span></td>
-            </tr>
-            <tr>
-                <td><span class="field-name">uso_horario_pico</span></td>
-                <td><span class="type">Boolean</span></td>
-                <td>Si hay consumo en horario pico <span class="required">requerido</span></td>
-            </tr>
-            <tr>
-                <td><span class="field-name">horas_alto_consumo</span></td>
-                <td><span class="type">Integer</span></td>
-                <td>Horas diarias de alto consumo <span class="required">requerido</span></td>
-            </tr>
-            <tr>
-                <td><span class="field-name">cantidad_equipos</span></td>
-                <td><span class="type">Integer</span></td>
-                <td>Cantidad de equipos eléctricos <span class="required">requerido</span></td>
-            </tr>
-            <tr>
-                <td><span class="field-name">cantidad_personas</span></td>
-                <td><span class="type">Integer</span></td>
-                <td>Personas que utilizan el inmueble <span class="required">requerido</span></td>
-            </tr>
-            <tr>
-                <td><span class="field-name">tipo_inmueble</span></td>
-                <td><span class="type">String</span></td>
-                <td>Casa, Departamento o Comercio <span class="required">requerido</span></td>
-            </tr>
-            <tr>
-                <td><span class="field-name">mes</span></td>
-                <td><span class="type">Integer</span></td>
-                <td>Mes analizado (1-12) <span class="required">requerido</span></td>
-            </tr>
-            <tr>
-                <td><span class="field-name">modelo</span></td>
-                <td><span class="type">String</span></td>
-                <td>Algoritmo ML a ejecutar: <code>rf</code> (Random Forest) o <code>lr</code> (Regresión Logística) <span class="required">requerido</span></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+                <p
+                    style="
+                        color: #94a3b8;
+                        font-size: 0.88rem;
+                        margin-bottom: 10px;
+                    "
+                >
+                    Campos del body (application/json):
+                </p>
+                <table class="field-table">
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="field-name">consumo_kwh</span></td>
+                            <td><span class="type">Number</span></td>
+                            <td>
+                                Consumo mensual en kWh
+                                <span class="required">requerido</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="field-name">uso_horario_pico</span>
+                            </td>
+                            <td><span class="type">Boolean</span></td>
+                            <td>
+                                Si hay consumo en horario pico
+                                <span class="required">requerido</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="field-name"
+                                    >horas_alto_consumo</span
+                                >
+                            </td>
+                            <td><span class="type">Integer</span></td>
+                            <td>
+                                Horas diarias de alto consumo
+                                <span class="required">requerido</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="field-name">cantidad_equipos</span>
+                            </td>
+                            <td><span class="type">Integer</span></td>
+                            <td>
+                                Cantidad de equipos eléctricos
+                                <span class="required">requerido</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="field-name"
+                                    >cantidad_personas</span
+                                >
+                            </td>
+                            <td><span class="type">Integer</span></td>
+                            <td>
+                                Personas que utilizan el inmueble
+                                <span class="required">requerido</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="field-name">tipo_inmueble</span>
+                            </td>
+                            <td><span class="type">String</span></td>
+                            <td>
+                                Casa, Departamento o Comercio
+                                <span class="required">requerido</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="field-name">mes</span></td>
+                            <td><span class="type">Integer</span></td>
+                            <td>
+                                Mes analizado (1-12)
+                                <span class="required">requerido</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    <!-- REQUEST EJEMPLO -->
-    <div class="card">
-        <h3>&#x1F4E4; Ejemplo de Request <span class="status-200">200 OK</span></h3>
-        <p class="section-label">Body enviado a la API:</p>
-        <pre>{
+            <!-- REQUEST EJEMPLO -->
+            <div class="card">
+                <h3>
+                    &#x1F4E4; Ejemplo de Request
+                    <span class="status-200">200 OK</span>
+                </h3>
+                <p class="section-label">Body enviado a la API:</p>
+                <pre>
+{
   "consumo_kwh": 450,
   "uso_horario_pico": true,
   "horas_alto_consumo": 3,
   "cantidad_equipos": 9,
   "cantidad_personas": 6,
   "tipo_inmueble": "Casa",
-  "mes": 7,
-  "modelo": "rf"
-}</pre>
+  "mes": 7
+}</pre
+                >
 
-        <p class="section-label" style="margin-top:16px;">Respuesta de la API:</p>
-        <pre>{
+                <p class="section-label" style="margin-top: 16px">
+                    Respuesta de la API:
+                </p>
+                <pre>
+{
   "categoria": "Moderado",
   "probabilidad": 0.71,
   "costo_estimado_mensual": 337.5,
@@ -381,80 +566,131 @@
       "mensaje": "Mejorar el aislamiento de puertas y ventanas ayuda a reducir el uso de calefacción."
     }
   ]
-}</pre>
-    </div>
+}</pre
+                >
+            </div>
 
-    <!-- EJEMPLO DE ERROR REAL -->
-    <div class="card">
-        <h3>&#x26A0;&#xFE0F; Ejemplo de Error de Validación <span class="status-400">400 Bad Request</span></h3>
-        <p class="section-label">Cuando falta un campo obligatorio (por ejemplo 'mes'):</p>
-        <pre>{
+            <!-- EJEMPLO DE ERROR REAL -->
+            <div class="card">
+                <h3>
+                    &#x26A0;&#xFE0F; Ejemplo de Error de Validación
+                    <span class="status-400">400 Bad Request</span>
+                </h3>
+                <p class="section-label">
+                    Cuando falta un campo obligatorio (por ejemplo 'mes'):
+                </p>
+                <pre>
+{
   "mes": "El mes es obligatorio"
-}</pre>
-    </div>
+}</pre
+                >
+            </div>
+        </div>
 
-</div>
+        <script>
+            modelDict = {
+                rf: "v2",
+                lr: "v1",
+            };
 
-<script>
-    document.getElementById('apiTestForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+            document
+                .getElementById("apiTestForm")
+                .addEventListener("submit", async function (e) {
+                    e.preventDefault();
 
-        const modeloSeleccionado = document.getElementById('modelo').value;
+                    const modeloSeleccionado =
+                        document.getElementById("modelo").value;
 
-        const payload = {
-            consumo_kwh: parseFloat(document.getElementById('consumo_kwh').value),
-            uso_horario_pico: document.getElementById('uso_horario_pico').value === "true",
-            horas_alto_consumo: parseInt(document.getElementById('horas_alto_consumo').value),
-            cantidad_equipos: parseInt(document.getElementById('cantidad_equipos').value),
-            cantidad_personas: parseInt(document.getElementById('cantidad_personas').value),
-            tipo_inmueble: document.getElementById('tipo_inmueble').value,
-            mes: parseInt(document.getElementById('mes').value),
-            modelo: modeloSeleccionado
-        };
+                    const payload = {
+                        consumo_kwh: parseFloat(
+                            document.getElementById("consumo_kwh").value,
+                        ),
+                        uso_horario_pico:
+                            document.getElementById("uso_horario_pico")
+                                .value === "true",
+                        horas_alto_consumo: parseInt(
+                            document.getElementById("horas_alto_consumo").value,
+                        ),
+                        cantidad_equipos: parseInt(
+                            document.getElementById("cantidad_equipos").value,
+                        ),
+                        cantidad_personas: parseInt(
+                            document.getElementById("cantidad_personas").value,
+                        ),
+                        tipo_inmueble:
+                            document.getElementById("tipo_inmueble").value,
+                        mes: parseInt(document.getElementById("mes").value),
+                        modelo: modeloSeleccionado,
+                    };
 
-        const liveResultBox = document.getElementById('liveResultBox');
-        const liveResponseJson = document.getElementById('liveResponseJson');
-        const badgeContainer = document.getElementById('badgeContainer');
+                    const liveResultBox =
+                        document.getElementById("liveResultBox");
+                    const liveResponseJson =
+                        document.getElementById("liveResponseJson");
+                    const badgeContainer =
+                        document.getElementById("badgeContainer");
 
-        liveResultBox.style.display = "block";
-        liveResponseJson.innerText = "Cargando respuesta de la API en Staging...";
-        badgeContainer.innerHTML = "";
+                    liveResultBox.style.display = "block";
+                    liveResponseJson.innerText =
+                        "Cargando respuesta de la API...";
+                    badgeContainer.innerHTML = "";
 
-        // Construcción dinámica de la URL según el modelo seleccionado ('rf' o 'lr')
-        const apiUrl = `http://146.181.51.129/staging/analisis-energetico/${modeloSeleccionado}`;
+                    // Construcción dinámica de la URL según el modelo seleccionado ('rf' o 'lr')
+                    const apiUrl = `${modelDict[modeloSeleccionado]}/analisis-energetico`;
 
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(payload),
+                        });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => null);
-                if (errorData) {
-                    liveResponseJson.innerText = JSON.stringify(errorData, null, 2);
-                } else {
-                    liveResponseJson.innerText = `Error HTTP ${response.status}: ${response.statusText}`;
-                }
-                badgeContainer.innerHTML = `<span class="category-badge-live cat-ineficiente">Error HTTP ${response.status}</span>`;
-                return;
-            }
+                        if (!response.ok) {
+                            const errorData = await response
+                                .json()
+                                .catch(() => null);
+                            if (errorData) {
+                                liveResponseJson.innerText = JSON.stringify(
+                                    errorData,
+                                    null,
+                                    2,
+                                );
+                            } else {
+                                liveResponseJson.innerText = `Error HTTP ${response.status}: ${response.statusText}`;
+                            }
+                            badgeContainer.innerHTML = `<span class="category-badge-live cat-ineficiente">Error HTTP ${response.status}</span>`;
+                            return;
+                        }
 
-            const data = await response.json();
-            liveResponseJson.innerText = JSON.stringify(data, null, 2);
+                        const data = await response.json();
+                        liveResponseJson.innerText = JSON.stringify(
+                            data,
+                            null,
+                            2,
+                        );
 
-            if (data.categoria) {
-                const catClass = data.categoria === 'Eficiente' ? 'cat-eficiente' :
-                                 data.categoria === 'Ineficiente' ? 'cat-ineficiente' : 'cat-moderado';
-                badgeContainer.innerHTML = `<span class="category-badge-live ${catClass}">Perfil Categorizado: ${data.categoria}</span>`;
-            }
-        } catch (err) {
-            console.error("Error al conectar con la API en Staging:", err);
-            badgeContainer.innerHTML = `<span class="category-badge-live cat-ineficiente">❌ Error de Conexión</span>`;
-            liveResponseJson.innerText = "No se pudo conectar con la API en " + apiUrl + ".\nDetalle: " + err.message;
-        }
-    });
-</script>
-</body>
+                        if (data.categoria) {
+                            const catClass =
+                                data.categoria === "Eficiente"
+                                    ? "cat-eficiente"
+                                    : data.categoria === "Ineficiente"
+                                      ? "cat-ineficiente"
+                                      : "cat-moderado";
+                            badgeContainer.innerHTML = `<span class="category-badge-live ${catClass}">Perfil Categorizado: ${data.categoria}</span>`;
+                        }
+                    } catch (err) {
+                        console.error(
+                            "Error al conectar con la API:",
+                            err,
+                        );
+                        badgeContainer.innerHTML = `<span class="category-badge-live cat-ineficiente">❌ Error de Conexión</span>`;
+                        liveResponseJson.innerText =
+                            "No se pudo conectar con la API en " +
+                            apiUrl +
+                            ".\nDetalle: " +
+                            err.message;
+                    }
+                });
+        </script>
+    </body>
 </html>
