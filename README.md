@@ -3,7 +3,7 @@
 ![https://www.youtube.com/channel/UCgF66HaRWpx01yt8DTqbQzA](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)
 ![https://trello.com/b/c3USs77B/g9-latam-team-33](https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white)
 
-# 🍃⚡ Leaf Watt
+# 🍃 Leaf Watt⚡
 
 ### Hackathon ONE G9 | Alura Latam + Oracle Next Education
 
@@ -33,7 +33,8 @@ generar recomendaciones personalizadas que ayuden a reducir costos y fomentar un
 - [📌 Descripción](#-descripción)
 - [🎯 Objetivos](#-objetivos)
 - [📋 Alcance del Proyecto](#-alcance-del-proyecto)
-- [✅ Tareas a Realizar](#-tareas-a-realizar)
+- [💻 Tareas a Realizar](#-tareas-a-realizar)
+- [✅ Requisitos](#-requisitos)
 - [🛠 Tecnologías que ocupamos](#-tecnologias-que-ocupamos)
 - [💡 Soluciones](#-soluciones)
 - [📈 Categorías de Consumo](#-categorías-de-consumo)
@@ -108,7 +109,7 @@ Con estos datos clasificará al usuario en un perfil energético y ofrecerá rec
 
 ---
 
-# ✅ Tareas a Realizar
+# 💻 Tareas a Realizar
 
 ## 📊 Ciencia de Datos
 
@@ -133,14 +134,9 @@ Desarrollar una API REST que permita:
 - Manejar errores.
 - Documentar los endpoints.
 
-## ☁️ Oracle Cloud Infrastructure (OCI)
+---
 
-Implementar al menos uno de los siguientes servicios:
-
-- [x] Object Storage
-- [x] OCI Compute
-- [ ] OCI Functions
-- [ ] OCI Database
+# ✅ Requisitos
 
 ## 🚀 Requisitos del MVP
 
@@ -164,6 +160,15 @@ Implementar al menos uno de los siguientes servicios:
 - [ ] Comparación entre períodos.
 - [ ] Ranking energético.
 - [ ] Simulación de ahorro.
+
+## ☁️ Oracle Cloud Infrastructure (OCI)
+
+Implementar al menos uno de los siguientes servicios:
+
+- [x] Object Storage
+- [x] OCI Compute
+- [ ] OCI Functions
+- [ ] OCI Database
 
 ---
 
