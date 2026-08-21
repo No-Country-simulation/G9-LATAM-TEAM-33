@@ -4,9 +4,12 @@
 
 **Método:** POST
 
-**Ruta:**
+**Rutas:**
 
-/analisis-energetico
+- `/v1/analisis-energetico` (usa el modelo de Regresión Logística)
+- `/v2/analisis-energetico` (usa el modelo de Random Forest)
+
+La versión en la ruta determina qué modelo se usa para la predicción.
 
 ### Descripción
 
