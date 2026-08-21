@@ -158,7 +158,7 @@ Desarrollar una API REST que permita:
 - [ ] Procesamiento mediante CSV.
 - [ ] Docker.
 - [ ] Pruebas automatizadas.
-- [ ] Alertas de alto consumo.
+- [x] Alertas de alto consumo.
 - [ ] Visualizaciones gráficas.
 - [ ] Comparación entre períodos.
 - [ ] Ranking energético.
@@ -399,8 +399,11 @@ Para ocupar la aplicacion sigua los siguientes pasos:
 
 Link a aplicacion - [LeafWatt](https://leafwatt.ddns.net/)
 Dentro de la aplicacion rellene sus datos en el formulario y presione el boton **'Calcular'**
+Alternativamente puede bajar a la seccion de Consulta de Historial y presionar el boton **'Consultar Historial'**.
 
 ### 2- Peticion directa
+
+#### - Analisis energetico
 
 En una aplicacion como **Postman** manda una peticion POST a https://leafwatt.ddns.net/{version}/analisis-energetico `{version} puede ser 'v1' o 'v2'` con un payload **JSON**.
 
@@ -442,6 +445,28 @@ En una aplicacion como **Postman** manda una peticion POST a https://leafwatt.dd
         "consumo_por_persona": 75,
         "consumo_por_hora": 150
     }
+}
+```
+
+#### - Historial de peticiones
+
+**Ejemplo de Request:**
+
+```text
+GET https://leafwatt.ddns.net/historial?categoria=Moderado&page=0&size=2
+```
+
+**Ejemplo de respuesta:**
+
+```json
+{
+    "content": [
+        { "id": 1, "categoria": "Moderado", "consumo_kwh": 450.0, "...": "..." }
+    ],
+    "total_elements": 3,
+    "total_pages": 2,
+    "number": 0,
+    "size": 2
 }
 ```
 
