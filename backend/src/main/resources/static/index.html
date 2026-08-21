@@ -653,6 +653,64 @@
   "size": 2
 }</pre>
             </div>
+
+            <!-- HISTORIAL INTERACTIVO -->
+            <div class="card" style="border: 1px solid #38bdf8">
+                <style>
+                    #btnPrevPage:disabled, #btnNextPage:disabled {
+                        opacity: 0.4;
+                        cursor: not-allowed;
+                    }
+                </style>
+                <h3>📜 Consulta de Historial en Vivo</h3>
+                <p style="color: #94a3b8; font-size: 0.88rem; margin-bottom: 12px;">
+                    Consulta y filtra los análisis registrados en el sistema en tiempo real.
+                </p>
+
+                <div class="form-grid" style="grid-template-columns: 1fr auto; align-items: end; gap: 14px;">
+                    <div class="form-group">
+                        <label for="historialCategoria">Filtrar por Categoría:</label>
+                        <select id="historialCategoria">
+                            <option value="Todas" selected>Todas</option>
+                            <option value="Eficiente">Eficiente</option>
+                            <option value="Moderado">Moderado</option>
+                            <option value="Ineficiente">Ineficiente</option>
+                        </select>
+                    </div>
+                    <button id="btnConsultarHistorial" class="btn-submit" style="margin-top: 0; height: 38px;">
+                        Consultar Historial
+                    </button>
+                </div>
+
+                <div id="historialResultBox" style="display: none; margin-top: 20px;">
+                    <table class="field-table" id="tablaHistorial">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Categoría</th>
+                                <th>Consumo (kWh)</th>
+                                <th>Costo Estimado</th>
+                                <th>Modelo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historialTbody">
+                            <!-- Filas dinámicas -->
+                        </tbody>
+                    </table>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+                        <button id="btnPrevPage" class="btn-submit" style="margin-top: 0; width: auto; background: #334155;">
+                            Anterior
+                        </button>
+                        <span id="pageInfo" style="color: #94a3b8; font-size: 0.9rem;">Página 1</span>
+                        <button id="btnNextPage" class="btn-submit" style="margin-top: 0; width: auto; background: #334155;">
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+
+                <div id="historialError" style="display: none; color: #f87171; margin-top: 15px; font-size: 0.9rem;"></div>
+            </div>
         </div>
 
         <script>
@@ -759,6 +817,117 @@
                             err.message;
                     }
                 });
+
+            let currentHistorialPage = 0;
+
+            async function consultarHistorial(page = 0) {
+                currentHistorialPage = page;
+                const categoria = document.getElementById("historialCategoria").value;
+                const btnPrev = document.getElementById("btnPrevPage");
+                const btnNext = document.getElementById("btnNextPage");
+                const errorDiv = document.getElementById("historialError");
+                const resultBox = document.getElementById("historialResultBox");
+                const tbody = document.getElementById("historialTbody");
+                const pageInfo = document.getElementById("pageInfo");
+
+                errorDiv.style.display = "none";
+                errorDiv.innerText = "";
+
+                // Construct query parameters
+                let queryParams = [];
+                if (categoria !== "Todas") {
+                    queryParams.push(`categoria=${encodeURIComponent(categoria)}`);
+                }
+                queryParams.push(`page=${page}`);
+                queryParams.push(`size=10`);
+
+                const url = `/historial?${queryParams.join("&")}`;
+
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+
+                    tbody.innerHTML = "";
+                    if (!data.content || data.content.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #94a3b8;">No se encontraron registros.</td></tr>`;
+                    } else {
+                        data.content.forEach(registro => {
+                            const tr = document.createElement("tr");
+
+                            // Format date nicely
+                            let dateStr = registro.fecha_hora || registro.fechaHora || "-";
+                            if (dateStr !== "-") {
+                                try {
+                                    const dateObj = new Date(dateStr);
+                                    dateStr = dateObj.toLocaleString("es-ES", {
+                                        year: "numeric",
+                                        month: "2-digit",
+                                        day: "2-digit",
+                                        hour: "2-digit",
+                                        minute: "2-digit"
+                                    });
+                                } catch (e) {}
+                            }
+
+                            // Style category badge
+                            const cat = registro.categoria || "-";
+                            let catBadge = cat;
+                            if (cat === "Eficiente") {
+                                catBadge = `<span class="status-200" style="margin-left: 0;">Eficiente</span>`;
+                            } else if (cat === "Ineficiente") {
+                                catBadge = `<span class="status-400" style="margin-left: 0;">Ineficiente</span>`;
+                            } else if (cat === "Moderado") {
+                                catBadge = `<span style="background-color: rgba(245, 158, 11, 0.15); color: #fbbf24; font-size: 0.8rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; font-family: monospace;">Moderado</span>`;
+                            }
+
+                            const consumo = registro.consumo_kwh !== undefined ? registro.consumo_kwh : (registro.consumoKwh !== undefined ? registro.consumoKwh : "-");
+                            const costo = registro.costo_estimado_mensual !== undefined ? `$${registro.costo_estimado_mensual.toFixed(2)}` : (registro.costoEstimadoMensual !== undefined ? `$${registro.costoEstimadoMensual.toFixed(2)}` : "-");
+                            const modelo = registro.modelo || "-";
+
+                            tr.innerHTML = `
+                                <td>${dateStr}</td>
+                                <td>${catBadge}</td>
+                                <td>${consumo}</td>
+                                <td>${costo}</td>
+                                <td style="font-family: monospace; color: #38bdf8;">${modelo}</td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                    }
+
+                    resultBox.style.display = "block";
+                    const totalPages = data.total_pages !== undefined ? data.total_pages : (data.totalPages !== undefined ? data.totalPages : 1);
+                    const pageNumber = data.number !== undefined ? data.number : (data.pageable && data.pageable.pageNumber !== undefined ? data.pageable.pageNumber : 0);
+                    pageInfo.innerText = `Página ${pageNumber + 1} de ${totalPages || 1}`;
+
+                    // Update pagination buttons state
+                    btnPrev.disabled = data.first !== undefined ? data.first : (pageNumber === 0);
+                    btnNext.disabled = data.last !== undefined ? data.last : (pageNumber >= totalPages - 1);
+
+                } catch (err) {
+                    console.error("Error al consultar el historial:", err);
+                    resultBox.style.display = "none";
+                    errorDiv.style.display = "block";
+                    errorDiv.innerText = `No se pudo obtener el historial. Detalle: ${err.message}`;
+                }
+            }
+
+            document.getElementById("btnConsultarHistorial").addEventListener("click", () => {
+                consultarHistorial(0);
+            });
+
+            document.getElementById("btnPrevPage").addEventListener("click", () => {
+                if (currentHistorialPage > 0) {
+                    consultarHistorial(currentHistorialPage - 1);
+                }
+            });
+
+            document.getElementById("btnNextPage").addEventListener("click", () => {
+                consultarHistorial(currentHistorialPage + 1);
+            });
         </script>
     </body>
 </html>
